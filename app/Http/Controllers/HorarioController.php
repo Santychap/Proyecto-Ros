@@ -9,19 +9,33 @@ use Illuminate\Support\Facades\Auth;
 
 class HorarioController extends Controller
 {
-    // Mostrar horarios del empleado (o admin puede ver todos)
-    public function index()
-    {
-        $user = Auth::user();
+    // Mostrar horarios del empleado (o admin puede ver todos con búsqueda)
+   public function index(Request $request)
+{
+    $user = Auth::user();
 
-        if ($user->rol === 'admin') {
-            $horarios = Horario::with('user')->get();
-        } else {
-            $horarios = $user->horarios; // Asegúrate de tener esta relación en User
+    $search = $request->input('search'); // Obtener el término de búsqueda
+
+    if ($user->rol === 'admin') {
+        $query = Horario::with('user');
+
+        if ($search) {
+            // Filtrar por nombre o correo del empleado
+            $query->whereHas('user', function($q) use ($search) {
+                $q->where('name', 'like', "%{$search}%")
+                  ->orWhere('email', 'like', "%{$search}%");
+            });
         }
 
-        return view('horarios.index', compact('horarios'));
+        $horarios = $query->get();
+    } else {
+        // Para empleados, solo sus horarios (sin búsqueda)
+        $horarios = $user->horarios;
     }
+
+    return view('horarios.index', compact('horarios', 'search'));
+}
+
 
     // Formulario para crear nuevo horario (solo admin)
     public function create()

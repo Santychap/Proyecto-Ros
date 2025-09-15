@@ -23,9 +23,10 @@
                 <div class="mb-4">
                     <label for="user_id" class="block font-medium text-sm text-gray-700">Empleado</label>
                     <select name="user_id" id="user_id" class="border-gray-300 rounded w-full">
+                        <option value="">Selecciona un empleado</option>
                         @foreach($empleados as $empleado)
                             <option value="{{ $empleado->id }}" {{ (old('user_id', $horario->user_id) == $empleado->id) ? 'selected' : '' }}>
-                                {{ $empleado->name }}
+                                {{ $empleado->name }} ({{ $empleado->email }})
                             </option>
                         @endforeach
                     </select>
