@@ -16,10 +16,12 @@ class UserController extends Controller
 
         $users = User::query()
             ->when($search, function ($query, $search) {
-                $query->where('name', 'like', "%{$search}%")
+                $query->where(function ($q) use ($search) {
+                    $q->where('name', 'like', "%{$search}%")
                       ->orWhere('email', 'like', "%{$search}%");
+                });
             })
-            ->orderBy('name')
+            ->orderBy('id', 'asc') // Mostrar primero los IDs pequeños
             ->paginate(10);
 
         return view('users.index', compact('users'));
@@ -42,7 +44,7 @@ class UserController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|string|min:8|confirmed',
-            'rol' => 'required|string|in:admin,cliente',
+            'rol' => 'required|string|in:admin,cliente,empleado',
         ]);
 
         $data['password'] = bcrypt($data['password']);
@@ -68,7 +70,7 @@ class UserController extends Controller
         $data = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email,' . $user->id,
-            'rol' => 'required|string|in:admin,cliente',
+            'rol' => 'required|string|in:admin,cliente,empleado',
             'password' => 'nullable|string|min:8|confirmed',
         ]);
 
@@ -93,15 +95,15 @@ class UserController extends Controller
         return redirect()->route('users.index')->with('success', 'Usuario eliminado correctamente.');
     }
 
+    /**
+     * Mostrar horarios del usuario autenticado.
+     */
     public function misHorarios()
-{
-    $user = auth()->user();
-    $horarios = $user->horarios; // Asegúrate de tener esta relación
-    return view('empleado.horarios', compact('horarios'));
-}
+    {
+        $user = auth()->user();
+        $horarios = $user->horarios; // Relación desde el modelo User
+        return view('empleado.horarios', compact('horarios'));
+    }
 
-public function horarios()
-{
-    return $this->hasMany(Horario::class);
-}
+
 }

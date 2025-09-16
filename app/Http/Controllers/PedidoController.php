@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Pago;
 use App\Models\Pedido;
 use App\Models\DetallePedido;
 use App\Models\User;
@@ -35,16 +36,43 @@ class PedidoController extends Controller
 
         session()->forget('carrito');
 
-        return redirect()->route('pedidos.confirmacion')->with('success', 'Pedido confirmado con éxito');
+        // Redirigimos a confirmacion pasandole el id del pedido
+        return redirect()->route('pedidos.confirmacion', ['pedido' => $pedido->id]);
     }
 
-    // Página de confirmación
-    public function confirmacion()
+    // Página de confirmación del pedido (Cliente)
+    public function confirmacion(Pedido $pedido)
     {
-        return view('pedidos.confirmacion');
+        $user = auth()->user();
+
+        // Validar que el pedido sea del usuario o abortar
+        if ($pedido->user_id !== $user->id) {
+            abort(403);
+        }
+
+        // Calcular si puede cancelar (10 minutos)
+        $puedeCancelar = false;
+        $ahora = now();
+        $creadoEn = $pedido->created_at;
+        $diferencia = $ahora->diffInMinutes($creadoEn);
+
+        if ($pedido->estado === 'Pendiente' && $diferencia <= 10) {
+            $puedeCancelar = true;
+        }
+
+        // Cargar detalles con productos
+        $pedido->load('detalles.producto');
+
+        // Calcular total
+        $total = 0;
+        foreach ($pedido->detalles as $detalle) {
+            $total += $detalle->producto->precio * $detalle->cantidad;
+        }
+
+        return view('pedidos.confirmacion', compact('pedido', 'puedeCancelar', 'total'));
     }
 
-    // Ver pedidos según el rol y búsqueda para admin
+    // Ver pedidos según el rol y búsqueda para admin y clientes
     public function index(Request $request)
     {
         $user = auth()->user();
@@ -72,6 +100,7 @@ class PedidoController extends Controller
                 ->get();
 
         } else {
+            // Cliente ve solo sus pedidos, sin botones de acción, solo historial
             $pedidos = $query->where('user_id', $user->id)
                 ->latest()
                 ->get();
@@ -96,7 +125,7 @@ class PedidoController extends Controller
         return view('pedidos.historial', compact('pedidos'));
     }
 
-    // CLIENTE: Cancelar pedido
+    // CLIENTE: Cancelar pedido (solo dentro de los 10 minutos y estado Pendiente)
     public function cancelar(Pedido $pedido)
     {
         $user = auth()->user();
@@ -109,9 +138,18 @@ class PedidoController extends Controller
             return back()->with('error', 'No se puede cancelar este pedido.');
         }
 
+        // Verificar límite de tiempo (10 minutos)
+        $ahora = now();
+        $creadoEn = $pedido->created_at;
+        $diferencia = $ahora->diffInMinutes($creadoEn);
+
+        if ($diferencia > 10) {
+            return back()->with('error', 'El tiempo para cancelar el pedido ha expirado.');
+        }
+
         $pedido->update(['estado' => 'Cancelado']);
 
-        return back()->with('success', 'Pedido cancelado correctamente.');
+        return redirect()->route('pedidos.index')->with('success', 'Pedido cancelado correctamente.');
     }
 
     // ADMIN y EMPLEADO: Actualizar estado (solo Pendiente a Pagado)
@@ -132,9 +170,20 @@ class PedidoController extends Controller
             return back()->with('error', 'No es posible cambiar el estado del pedido.');
         }
 
+        // Actualizar el estado a Pagado
         $pedido->update(['estado' => 'Pagado']);
 
-        return back()->with('success', 'Estado del pedido actualizado a Pagado.');
+        // Crear registro en pagos
+        Pago::create([
+            'pedido_id' => $pedido->id,
+            'user_id' => $user->id,  // Usuario que hace el cambio (admin o empleado)
+            'monto' => $pedido->total ?? 0, // Asegúrate que el modelo Pedido tiene la propiedad total o calcula
+            'metodo' => 'efectivo', // Método genérico para este caso
+            'datos_pago' => 'Pago registrado manualmente por ' . $user->rol,
+            'fecha_pago' => now(),
+        ]);
+
+        return back()->with('success', 'Estado del pedido actualizado a Pagado y pago registrado correctamente.');
     }
 
     // Admin cancela pedido (solo admin, estados Pendiente o Pagado)
