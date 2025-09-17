@@ -1,0 +1,130 @@
+/* Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Fuente general */
+body {
+  font-family: 'Open Sans', sans-serif;
+  background-color: #000;
+  color: #fff;
+  min-height: 100vh;
+}
+
+/* Encabezado principal */
+.hero {
+  background-color: #111;
+  padding: 40px 20px;
+  text-align: center;
+  color: gold;
+}
+
+.hero h1 {
+  font-size: 3em;
+  margin-bottom: 10px;
+}
+
+.tagline {
+  font-size: 1.2em;
+  color: #ccc;
+}
+
+/* Sección Noticias */
+.noticias {
+  padding: 60px 30px;
+  text-align: center;
+}
+
+.section-title {
+  font-size: 2.5em;
+  color: rgb(255, 0, 0);
+  margin-bottom: 40px;
+}
+
+/* Grid de contenedores */
+.cuadros-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 30px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Contenedor de cada noticia */
+.cuadro {
+  background-color: #1a1a1a;
+  border: 2px solid gold;
+  border-radius: 12px;
+  padding: 20px;
+  transition: transform 0.3s ease;
+  position: relative;
+  text-align: left;
+}
+
+.cuadro:hover {
+  transform: scale(1.03);
+  box-shadow: 0 0 20px gold;
+}
+
+/* Ícono */
+.cuadro-icon {
+  font-size: 2.5em;
+  color: gold;
+  margin-bottom: 15px;
+}
+
+/* Título y descripción */
+.cuadro-content h3 {
+  font-size: 1.5em;
+  color: #fff;
+  margin-bottom: 10px;
+}
+
+.cuadro-content p {
+  font-size: 1em;
+  color: #ccc;
+  margin-bottom: 10px;
+}
+
+/* Etiqueta especial */
+.cuadro-badge {
+  background-color: gold;
+  color: #000;
+  font-size: 0.8em;
+  font-weight: bold;
+  padding: 5px 10px;
+  border-radius: 20px;
+  display: inline-block;
+  margin-top: 5px;
+}
+
+/* Pie de página */
+.footer {
+  background-color: #111;
+  padding: 30px;
+  color: #ccc;
+}
+
+.footer-content {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  text-align: center;
+}
+
+.contact-info, .social-media {
+  margin: 20px 0;
+}
+
+.social-icons i {
+  font-size: 1.5em;
+  margin: 0 10px;
+  color: gold;
+  transition: transform 0.3s ease;
+}
+
+.social-icons i:hover {
+  transform: scale(1.2);
+}

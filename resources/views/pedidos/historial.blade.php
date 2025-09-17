@@ -2,7 +2,9 @@
 
 @section('content')
 <div class="container">
-    <h1>Historial de Pedidos</h1>
+    <h1 class="mb-4">
+        {{ Auth::user()->rol === 'cliente' ? 'Mis Pedidos' : 'Historial de Pedidos' }}
+    </h1>
 
     @if($pedidos->isEmpty())
         <p>No tienes pedidos registrados.</p>
@@ -10,13 +12,24 @@
         @foreach($pedidos as $pedido)
             <div class="card mb-3">
                 <div class="card-header">
-                    Pedido #{{ $pedido->id }} - Estado: {{ $pedido->estado }} - Empleado: {{ $pedido->empleado ? $pedido->empleado->name : 'Sin asignar' }}
-                    <br>
-                    Fecha: {{ $pedido->created_at->format('d/m/Y H:i') }}
+                    <strong>Pedido #{{ $pedido->id }}</strong> <br>
+                    <span><strong>Estado:</strong> {{ $pedido->estado }}</span><br>
+
+                    @if(Auth::user()->rol !== 'cliente')
+                        <span><strong>Cliente:</strong> {{ $pedido->user->name }} ({{ $pedido->user->email }})</span><br>
+                        <span><strong>Empleado:</strong> {{ $pedido->empleado ? $pedido->empleado->name : 'Sin asignar' }}</span><br>
+                    @else
+                        <span><strong>Empleado asignado:</strong> {{ $pedido->empleado ? $pedido->empleado->name : 'Aún no asignado' }}</span><br>
+                    @endif
+
+                    <span><strong>Fecha:</strong> {{ $pedido->created_at->format('d/m/Y H:i') }}</span>
                 </div>
+
                 <div class="card-body">
                     <p><strong>Comentario:</strong> {{ $pedido->comentario ?? 'Ninguno' }}</p>
-                    <table class="table">
+
+                    <h6>Detalle del pedido:</h6>
+                    <table class="table table-bordered">
                         <thead>
                             <tr>
                                 <th>Producto</th>

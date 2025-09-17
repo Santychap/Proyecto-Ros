@@ -5,7 +5,6 @@
 
     <div class="py-6">
         <div class="max-w-2xl mx-auto sm:px-6 lg:px-8">
-            {{-- Bloqueamos el acceso a empleados --}}
             @if(in_array(Auth::user()->rol, ['admin', 'cliente']))
                 <form action="{{ route('reservas.store') }}" method="POST" class="bg-white p-6 rounded shadow">
                     @csrf
@@ -19,6 +18,19 @@
                                 @foreach ($clientes as $cliente)
                                     <option value="{{ $cliente->id }}">
                                         {{ $cliente->name }} ({{ $cliente->email }})
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        {{-- Selección manual de mesa solo para admin --}}
+                        <div class="mb-4">
+                            <label class="block font-medium text-sm text-gray-700">Seleccionar Mesa</label>
+                            <select name="mesa_id" class="form-select w-full">
+                                <option value="">-- Selecciona una mesa --</option>
+                                @foreach ($mesas as $mesa)
+                                    <option value="{{ $mesa->id }}">
+                                        Mesa {{ $mesa->codigo }} (Capacidad: {{ $mesa->capacidad }})
                                     </option>
                                 @endforeach
                             </select>
@@ -38,11 +50,6 @@
                     <div class="mb-4">
                         <label class="block font-medium text-sm text-gray-700">Cantidad de Personas</label>
                         <input type="number" name="personas" class="form-input w-full" min="1" required>
-                    </div>
-
-                    <div class="mb-4">
-                        <label class="block font-medium text-sm text-gray-700">Cantidad de Mesas (opcional)</label>
-                        <input type="number" name="mesas" class="form-input w-full" min="1">
                     </div>
 
                     <div class="mb-4">
@@ -73,16 +80,19 @@
         </div>
     </div>
 
+    {{-- Script para mejor experiencia al buscar cliente --}}
+    @if(Auth::user()->rol === 'admin')
     <script>
-    document.addEventListener("DOMContentLoaded", function() {
-        new TomSelect("#user_id", {
-            create: false,
-            sortField: {
-                field: "text",
-                direction: "asc"
-            },
-            placeholder: "Buscar cliente por nombre o correo...",
+        document.addEventListener("DOMContentLoaded", function() {
+            new TomSelect("#user_id", {
+                create: false,
+                sortField: {
+                    field: "text",
+                    direction: "asc"
+                },
+                placeholder: "Buscar cliente por nombre o correo...",
+            });
         });
-    });
     </script>
+    @endif
 </x-app-layout>

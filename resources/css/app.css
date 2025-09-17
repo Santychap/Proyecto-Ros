@@ -1,4 +1,10 @@
+/* LOS @IMPORT DEBEN IR PRIMERO */
+@import './estilos.css';
+@import './estilos-del-menu-principal.css';
+
+/* LUEGO @tailwind */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+/* Aquí puedes importar tus estilos personalizados */

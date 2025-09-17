@@ -22,50 +22,45 @@ new #[Layout('layouts.guest')] class extends Component
 
         $this->redirectIntended(default: route('dashboard', absolute: false), navigate: true);
     }
-}; ?>
 
-<div>
-    <!-- Session Status -->
-    <x-auth-session-status class="mb-4" :status="session('status')" />
+    public function render(): string
+    {
+        return <<<'HTML'
+<div class="min-h-screen flex items-center justify-center bg-black">
+    <div class="bg-gray-800 border-2 border-yellow-400 rounded-lg p-8 w-full max-w-sm text-white shadow-lg">
+        <h2 class="text-2xl font-bold text-center mb-6">Iniciar Sesión</h2>
 
-    <form wire:submit="login">
-        <!-- Email Address -->
-        <div>
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input wire:model="form.email" id="email" class="block mt-1 w-full" type="email" name="email" required autofocus autocomplete="username" />
-            <x-input-error :messages="$errors->get('form.email')" class="mt-2" />
+        <form :submit="login" class="space-y-4">
+            <!-- Email -->
+            <div>
+                <label for="email" class="block mb-1 font-semibold">Email</label>
+                <input :model="form.email" id="email" type="email" name="email" required autofocus
+                    class="w-full px-3 py-2 rounded border border-yellow-400 bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-yellow-400" />
+            </div>
+
+            <!-- Password -->
+            <div>
+                <label for="password" class="block mb-1 font-semibold">Password</label>
+                <input :model="form.password" id="password" type="password" name="password" required
+                    class="w-full px-3 py-2 rounded border border-yellow-400 bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-yellow-400" />
+            </div>
+
+            <!-- Remember me -->
+            <div class="flex items-center">
+                <input :model="form.remember" id="remember" type="checkbox" class="mr-2">
+                <label for="remember" class="text-white">Remember me</label>
+            </div>
+
+            <button type="submit"
+                class="w-full bg-yellow-400 text-black font-bold py-2 px-4 rounded hover:bg-yellow-500 transition-colors">Log In</button>
+        </form>
+
+        <div class="mt-4 text-center text-sm">
+            <a href="{{ route('register') }}" class="underline hover:text-yellow-400">¿No tienes cuenta? Regístrate</a><br>
+            <a href="{{ route('password.request') }}" class="underline hover:text-yellow-400">¿Olvidaste tu contraseña?</a>
         </div>
-
-        <!-- Password -->
-        <div class="mt-4">
-            <x-input-label for="password" :value="__('Password')" />
-
-            <x-text-input wire:model="form.password" id="password" class="block mt-1 w-full"
-                            type="password"
-                            name="password"
-                            required autocomplete="current-password" />
-
-            <x-input-error :messages="$errors->get('form.password')" class="mt-2" />
-        </div>
-
-        <!-- Remember Me -->
-        <div class="block mt-4">
-            <label for="remember" class="inline-flex items-center">
-                <input wire:model="form.remember" id="remember" type="checkbox" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500" name="remember">
-                <span class="ms-2 text-sm text-gray-600">{{ __('Remember me') }}</span>
-            </label>
-        </div>
-
-        <div class="flex items-center justify-end mt-4">
-            @if (Route::has('password.request'))
-                <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('password.request') }}" wire:navigate>
-                    {{ __('Forgot your password?') }}
-                </a>
-            @endif
-
-            <x-primary-button class="ms-3">
-                {{ __('Log in') }}
-            </x-primary-button>
-        </div>
-    </form>
+    </div>
 </div>
+HTML;
+    }
+};

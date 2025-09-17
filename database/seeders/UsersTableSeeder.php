@@ -5,34 +5,42 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
+use Spatie\Permission\Models\Role;
 
 class UsersTableSeeder extends Seeder
 {
     public function run()
     {
-        // Eliminar si existe antes de crear
+        // Crear roles si no existen
+        Role::firstOrCreate(['name' => 'admin']);
+        Role::firstOrCreate(['name' => 'empleado']);
+        Role::firstOrCreate(['name' => 'cliente']);
+
+        // Admin
         User::where('email', 'admin@restaurante.com')->delete();
-        User::create([
+        $admin = User::create([
             'name' => 'Admin Restaurante',
             'email' => 'admin@restaurante.com',
             'password' => Hash::make('password1234'),
-            'rol' => 'admin',
         ]);
+        $admin->assignRole('admin');
 
+        // Empleado
         User::where('email', 'empleado@restaurante.com')->delete();
-        User::create([
+        $empleado = User::create([
             'name' => 'Empleado Mesero',
             'email' => 'empleado@restaurante.com',
             'password' => Hash::make('password1234'),
-            'rol' => 'empleado',
         ]);
+        $empleado->assignRole('empleado');
 
+        // Cliente
         User::where('email', 'cliente@restaurante.com')->delete();
-        User::create([
+        $cliente = User::create([
             'name' => 'Cliente Ejemplo',
             'email' => 'cliente@restaurante.com',
             'password' => Hash::make('password1234'),
-            'rol' => 'cliente',
         ]);
+        $cliente->assignRole('cliente');
     }
 }

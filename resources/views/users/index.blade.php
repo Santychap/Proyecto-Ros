@@ -7,8 +7,9 @@
     <div class="d-flex justify-content-between align-items-center mb-3">
         <a href="{{ route('users.create') }}" class="btn btn-primary">Crear Usuario</a>
 
+        {{-- Barra de búsqueda --}}
         <form method="GET" action="{{ route('users.index') }}" class="d-flex">
-            <input type="text" name="search" class="form-control me-2" placeholder="Buscar por nombre o email" value="{{ request('search') }}">
+            <input type="text" name="search" class="form-control me-2" placeholder="Buscar por nombre o correo" value="{{ request('search') }}">
             <button type="submit" class="btn btn-secondary">Buscar</button>
         </form>
     </div>
@@ -16,6 +17,7 @@
     <table class="table table-bordered text-center align-middle">
         <thead class="table-light">
             <tr>
+                <th>ID</th>
                 <th>Nombre</th>
                 <th>Email</th>
                 <th>Rol</th>
@@ -25,6 +27,7 @@
         <tbody>
             @forelse ($users as $user)
             <tr>
+                <td>{{ $user->id }}</td>
                 <td>{{ $user->name }}</td>
                 <td>{{ $user->email }}</td>
                 <td>{{ $user->rol }}</td>
@@ -39,7 +42,7 @@
             </tr>
             @empty
             <tr>
-                <td colspan="4">No se encontraron usuarios.</td>
+                <td colspan="5">No se encontraron usuarios.</td>
             </tr>
             @endforelse
         </tbody>

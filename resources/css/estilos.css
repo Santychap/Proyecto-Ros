@@ -1,0 +1,375 @@
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+header {
+  background-color: #0000009f; 
+  padding: 20px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.header-link {
+  text-decoration: none;
+  color: rgb(255, 255, 255);
+  font-weight: bold;
+  font-size: 18px;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background-image: url(/imagenes/Fondoprincipal.png); 
+  background-size: cover;
+  background-position: center;
+  color: white;
+  text-align: center;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.circulos-principales {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 100px;
+  padding: 100px;
+  flex-wrap: wrap;
+}
+
+.circulo {
+  position: relative;
+  border-radius: 100%;
+  overflow: hidden;
+  text-align: center;
+  font-weight: bold;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.circulo img {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+}
+
+.circulo span {
+  position: relative;
+  z-index: 1;
+  text-shadow: 1px 1px 3px black;
+  font-family: sans-serif;
+  text-transform: uppercase;
+  text-align: center;
+  line-height: 1.2;
+}
+
+/* Tamaño y texto proporcional para los círculos pequeños */
+.circulo.small {
+  width: 250px;
+  height: 250px;
+}
+
+.circulo.small span {
+  font-size: 20px;
+  padding: 30px;
+}
+
+/* Tamaño y texto proporcional para el círculo central (nombre del restaurante) */
+.circulo.central {
+  width: 500px;
+  height: 500px;
+}
+
+.circulo.central span {
+  font-size: 40px;
+  padding: 60px;
+}
+
+
+.bloques {
+  display: flex;
+  justify-content: center;
+  gap: 50px;
+  margin-bottom: 60px;
+}
+
+.bloque {
+  width: 500px;
+  height: 300px;
+  /* background-color: rgba(255, 255, 255, 0.25); */
+  border-radius: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-decoration: none;
+  color: white;
+  font-size: 20px;
+  font-weight: bold;
+  transition: transform 0.3s;
+}
+
+.bloque:hover {
+  transform: scale(1.05);
+}
+
+
+.bloque-contenedor {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.titulo-bloque {
+  font-size: 40px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: white;
+}
+
+.bloque img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 15px;
+}
+
+.footer {
+    background: #333;
+    color: white;
+    padding: 50px 30px 20px;
+    font-size: 1.1rem; 
+    text-align: center;
+}
+
+.footer-content {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 3rem;
+    margin-bottom: 2rem;
+}
+
+.footer-section {
+    flex: 1 1 250px;
+    max-width: 300px;
+    margin: 0 auto;
+}
+
+.footer-section h3 {
+    font-family: 'Playfair Display', serif;
+    margin-bottom: 1rem;
+    color: #d4a574;
+    font-size: 1.4rem;
+}
+
+.footer-section p {
+    color: #ccc;
+    line-height: 1.8;
+}
+
+.footer-section .info-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 10px;
+    gap: 10px;
+}
+
+.footer-section .info-item img {
+    width: 24px;
+    height: 24px;
+}
+
+.footer-section {
+    flex: 1 1 250px;
+    max-width: 300px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+    text-align: center;
+}
+
+.social-links {
+    display: flex;
+    justify-content: center;  
+    align-items: center;
+    gap: 12px;
+    margin-top: 10px;
+    flex-wrap: wrap;
+}
+
+.social-links img {
+    width: 28px;
+    height: 28px;
+    object-fit: contain;
+    transition: transform 0.3s ease;
+}
+
+.social-links img:hover {
+    transform: scale(1.1);
+}
+
+.footer-bottom {
+    text-align: center;
+    border-top: 1px solid #444;
+    padding-top: 15px;
+    font-size: 0.95rem;
+    color: #aaa;
+}
+
+
+/* Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Fuente general */
+body {
+  font-family: 'Open Sans', sans-serif;
+  background-color: #000;
+  color: #fff;
+  min-height: 100vh;
+}
+
+/* Encabezado principal */
+.hero {
+  background-color: #111;
+  padding: 40px 20px;
+  text-align: center;
+  color: gold;
+}
+
+.hero h1 {
+  font-size: 3em;
+  margin-bottom: 10px;
+}
+
+.tagline {
+  font-size: 1.2em;
+  color: #ccc;
+}
+
+/* Sección Noticias */
+.noticias {
+  padding: 60px 30px;
+  text-align: center;
+  background-color: #000; /* Asegura fondo negro completo */
+}
+
+.section-title {
+  font-size: 3em;
+  color: gold;
+  margin-bottom: 50px;
+  text-transform: uppercase;
+}
+
+/* Grid de contenedores */
+.cuadros-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 40px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* Contenedor de cada noticia */
+.cuadro {
+  background-color: #1a1a1a;
+  border: 2px solid gold;
+  border-radius: 16px;
+  padding: 25px;
+  transition: transform 0.3s ease;
+  position: relative;
+  text-align: center;
+}
+
+.cuadro:hover {
+  transform: scale(1.03);
+  box-shadow: 0 0 25px gold;
+}
+
+/* Ícono */
+.cuadro-icon {
+  font-size: 2.8em;
+  color: gold;
+  margin-bottom: 18px;
+}
+
+/* Imagen */
+.cuadro img {
+  width: 100%;
+  height: 240px;
+  object-fit: cover;
+  border-radius: 12px;
+  margin-bottom: 15px;
+}
+
+/* Título y descripción */
+.cuadro-content h3 {
+  font-size: 1.8em;
+  color: #fff;
+  margin-bottom: 12px;
+}
+
+.cuadro-content p {
+  font-size: 1.1em;
+  color: #ddd;
+  margin-bottom: 12px;
+}
+
+/* Etiqueta especial */
+.cuadro-badge {
+  background-color: gold;
+  color: #000;
+  font-size: 0.9em;
+  font-weight: bold;
+  padding: 6px 14px;
+  border-radius: 20px;
+  display: inline-block;
+  margin-top: 8px;
+}
+
+
+/* Pie de página */
+.footer {
+  background-color: #111;
+  padding: 30px;
+  color: #ccc;
+}
+
+.footer-content {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  text-align: center;
+}
+
+.contact-info, .social-media {
+  margin: 20px 0;
+}
+
+.social-icons i {
+  font-size: 1.5em;
+  margin: 0 10px;
+  color: gold;
+  transition: transform 0.3s ease;
+}
+
+.social-icons i:hover {
+  transform: scale(1.2);
+}

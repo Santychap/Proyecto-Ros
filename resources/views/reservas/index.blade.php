@@ -25,13 +25,23 @@
                 <div class="bg-white p-4 mb-4 rounded shadow">
                     @if(Auth::user()->rol === 'admin')
                         <p><strong>Usuario:</strong> {{ $reserva->user->name }}</p>
-                        <p><strong>Email:</strong> {{ $reserva->user->email }}</p> <!-- MOSTRAR CORREO DEL CLIENTE -->
+                        <p><strong>Email:</strong> {{ $reserva->user->email }}</p>
                     @endif
 
                     <p><strong>Fecha:</strong> {{ $reserva->fecha }}</p>
                     <p><strong>Hora:</strong> {{ $reserva->hora }}</p>
                     <p><strong>Personas:</strong> {{ $reserva->personas }}</p>
-                    <p><strong>Mesas:</strong> {{ $reserva->mesas ?? 'No especificado' }}</p>
+
+                    {{-- Mostrar información de la mesa asignada --}}
+                    <p>
+                        <strong>Mesa:</strong>
+                        @if ($reserva->mesa)
+                            {{ $reserva->mesa->codigo ?? 'Mesa ' . $reserva->mesa->id }} (Capacidad: {{ $reserva->mesa->capacidad }})
+                        @else
+                            No asignada
+                        @endif
+                    </p>
+
                     <p><strong>Motivo:</strong> {{ $reserva->motivo ?? 'No especificado' }}</p>
                     <p><strong>Nota:</strong> {{ $reserva->nota ?? 'Ninguna' }}</p>
                     <p><strong>Estado:</strong> {{ $reserva->estado }}</p>

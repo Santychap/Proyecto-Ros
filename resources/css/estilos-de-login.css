@@ -1,0 +1,91 @@
+body {
+  background: #f1f1f1;
+  font-family: Arial, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+}
+
+.register-container {
+  width: 100%;
+  max-width: 400px;
+  padding: 20px;
+}
+
+.register-box {
+  background: white;
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.logo h1 {
+  margin-bottom: 10px;
+}
+
+.logo p {
+  margin-bottom: 20px;
+  color: #666;
+}
+
+.login-options {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.login-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  text-decoration: none;
+  padding: 12px;
+  font-size: 16px;
+  font-weight: bold;
+  border-radius: 8px;
+  color: white;
+  transition: background 0.3s ease;
+}
+
+.google-btn {
+  background-color: #db4437;
+}
+
+.google-btn:hover {
+  background-color: #c23321;
+}
+
+.facebook-btn {
+  background-color: #4267B2;
+}
+
+.facebook-btn:hover {
+  background-color: #365899;
+}
+
+.phone-btn {
+  background-color: #25D366;
+}
+
+.phone-btn:hover {
+  background-color: #20BA5A;
+}
+
+.terms {
+  margin-top: 20px;
+  font-size: 14px;
+  color: #666;
+}
+
+.terms a {
+  color: #4CAF50;
+  text-decoration: none;
+}
+
+.terms a:hover {
+  text-decoration: underline;
+}

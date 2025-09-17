@@ -10,12 +10,19 @@ use App\Http\Controllers\MenuController;
 use App\Http\Controllers\CarritoController;
 use App\Http\Controllers\PedidoController;
 use App\Http\Controllers\HorarioController;
+use App\Http\Controllers\PagoController;
+use App\Http\Controllers\NoticiaController;
+use App\Http\Controllers\PromocionController;
 
 // Ruta pública para la página principal (welcome)
 Route::view('/', 'welcome');
 
 // Ruta pública para el menú
 Route::get('/menu', [MenuController::class, 'index'])->name('menu.index');
+
+// Rutas públicas para mostrar noticias y promociones
+Route::get('/noticias-web', [NoticiaController::class, 'publicIndex'])->name('noticias.publicIndex');
+Route::get('/promociones-web', [PromocionController::class, 'publicIndex'])->name('promociones.publicIndex');
 
 // Rutas protegidas (requieren login y verificación)
 Route::middleware(['auth', 'verified'])->group(function () {
@@ -43,25 +50,29 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::delete('horarios/{horario}', [HorarioController::class, 'destroy'])->name('horarios.destroy');
 
     // --- Rutas para pedidos ---
-
-    // Cliente: crear pedido y ver confirmación
     Route::post('/pedidos', [PedidoController::class, 'store'])->name('pedidos.store');
-    Route::get('/pedidos/confirmacion', [PedidoController::class, 'confirmacion'])->name('pedidos.confirmacion');
-
-    // Cliente: cancelar su pedido (POST porque es una acción)
+    Route::get('/pedidos/confirmacion/{pedido}', [PedidoController::class, 'confirmacion'])->name('pedidos.confirmacion');
     Route::post('/pedidos/{pedido}/cancelar', [PedidoController::class, 'cancelar'])->name('pedidos.cancelar');
-
-    // Empleado y Admin: ver pedidos
     Route::get('/pedidos', [PedidoController::class, 'index'])->name('pedidos.index');
-
-    // Empleado y Admin: actualizar estado (PUT)
     Route::put('/pedidos/{pedido}/estado', [PedidoController::class, 'actualizarEstado'])->name('pedidos.actualizarEstado');
-
-    // Admin: cancelar pedido (PUT)
     Route::put('/pedidos/{pedido}/cancelar', [PedidoController::class, 'adminCancelar'])->name('pedidos.adminCancelar');
-
-    // Admin: historial completo de pedidos
     Route::get('/pedidos/historial', [PedidoController::class, 'historial'])->name('pedidos.historial');
+
+    // --- Rutas para pagos ---
+    // Cliente: iniciar pago
+    Route::get('/pagos/create/{pedido}', [PagoController::class, 'create'])->name('pagos.create');
+    Route::post('/pagos/store/{pedido}', [PagoController::class, 'store'])->name('pagos.store');
+
+    // Cliente y administrador: ver pagos
+    Route::get('/pagos', [PagoController::class, 'index'])->name('pagos.index');
+    Route::get('/pagos/{pago}', [PagoController::class, 'show'])->name('pagos.show');
+
+    // --- Rutas para Noticias y Promociones (solo admin, validar dentro del controlador) ---
+    Route::resource('noticias', NoticiaController::class);
+
+    // Rutas para Promociones - Corregido el parámetro
+    Route::resource('promociones', PromocionController::class)
+        ->parameters(['promociones' => 'promocion']);
 });
 
 // Rutas para el carrito (públicas o protegidas según lógica de negocio)
