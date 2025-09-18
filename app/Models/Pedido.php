@@ -13,7 +13,7 @@ class Pedido extends Model
     public const ESTADO_PENDIENTE = 'Pendiente';
     public const ESTADO_PAGADO = 'Pagado';
     public const ESTADO_CANCELADO = 'Cancelado';
-    public const ESTADO_TERMINADO = 'Terminado'; // Si decides conservar este estado
+    public const ESTADO_TERMINADO = 'Terminado'; // Opcional
 
     protected $fillable = [
         'user_id',
@@ -38,6 +38,14 @@ class Pedido extends Model
     public function detalles()
     {
         return $this->hasMany(DetallePedido::class);
+    }
+
+    // Accesor para obtener el total del pedido
+    public function getTotalAttribute()
+    {
+        return $this->detalles->sum(function($detalle) {
+            return $detalle->producto->precio * $detalle->cantidad;
+        });
     }
 
     // Accesor para mostrar estado con íconos (opcional)
