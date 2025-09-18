@@ -16,14 +16,12 @@
                         {{ __('Dashboard') }}
                     </x-nav-link>
 
-                    {{-- Enlace a Reservas --}}
                     @auth
                         <x-nav-link :href="route('reservas.index')" :active="request()->routeIs('reservas.*')">
                             {{ __('Reservas') }}
                         </x-nav-link>
                     @endauth
 
-                    {{-- Enlaces para ADMINISTRADOR --}}
                     @auth
                         @if(auth()->user()->rol === 'admin')
                             <x-nav-link :href="route('users.index')" :active="request()->routeIs('users.*')">
@@ -46,15 +44,26 @@
                                 {{ __('Horarios') }}
                             </x-nav-link>
 
-                            {{-- Aquí el enlace a Pedidos para admin --}}
                             <x-nav-link :href="route('pedidos.index')" :active="request()->routeIs('pedidos.*')">
                                 {{ __('Pedidos') }}
                             </x-nav-link>
-                        @endif
-                    @endauth
 
-                    {{-- Enlaces para EMPLEADO --}}
-                    @auth
+                            {{-- Pagos --}}
+                            <x-nav-link :href="route('pagos.index')" :active="request()->routeIs('pagos.*')">
+                                {{ __('Pagos') }}
+                            </x-nav-link>
+
+                            {{-- Noticias --}}
+                            <x-nav-link :href="route('noticias.index')" :active="request()->routeIs('noticias.*')">
+                                {{ __('Noticias') }}
+                            </x-nav-link>
+
+                            {{-- Promociones --}}
+                            <x-nav-link :href="route('promociones.index')" :active="request()->routeIs('promociones.*')">
+                                {{ __('Promociones') }}
+                            </x-nav-link>
+                        @endif
+
                         @if(auth()->user()->rol === 'empleado')
                             <x-nav-link :href="route('pedidos.index')" :active="request()->routeIs('pedidos.index')">
                                 {{ __('Mis Pedidos') }}
@@ -62,6 +71,17 @@
 
                             <x-nav-link :href="route('horarios.index')" :active="request()->routeIs('horarios.index')">
                                 {{ __('Mis Horarios') }}
+                            </x-nav-link>
+                        @endif
+
+                        @if(auth()->user()->rol === 'cliente')
+                            <x-nav-link :href="route('pedidos.index')" :active="request()->routeIs('pedidos.index')">
+                                {{ __('Mis Pedidos') }}
+                            </x-nav-link>
+
+                            {{-- Pagos cliente --}}
+                            <x-nav-link :href="route('pagos.index')" :active="request()->routeIs('pagos.*')">
+                                {{ __('Mis Pagos') }}
                             </x-nav-link>
                         @endif
                     @endauth
@@ -108,15 +128,17 @@
                 </div>
             @endauth
 
-            <!-- Hamburger (responsive) -->
+            <!-- Hamburger -->
             <div class="-me-2 flex items-center sm:hidden">
                 <button @click="open = ! open"
                     class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out">
                     <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
-                        <path :class="{ 'hidden': open, 'inline-flex': ! open }" class="inline-flex" stroke-linecap="round"
-                            stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-                        <path :class="{ 'hidden': ! open, 'inline-flex': open }" class="hidden" stroke-linecap="round"
-                            stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                        <path :class="{ 'hidden': open, 'inline-flex': ! open }" class="inline-flex"
+                            stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M4 6h16M4 12h16M4 18h16" />
+                        <path :class="{ 'hidden': ! open, 'inline-flex': open }" class="hidden"
+                            stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M6 18L18 6M6 6l12 12" />
                     </svg>
                 </button>
             </div>
@@ -135,7 +157,6 @@
                     {{ __('Reservas') }}
                 </x-responsive-nav-link>
 
-                {{-- ADMIN --}}
                 @if(auth()->user()->rol === 'admin')
                     <x-responsive-nav-link :href="route('users.index')" :active="request()->routeIs('users.*')">
                         {{ __('Usuarios') }}
@@ -157,13 +178,26 @@
                         {{ __('Horarios') }}
                     </x-responsive-nav-link>
 
-                    {{-- Enlace Pedidos admin responsive --}}
                     <x-responsive-nav-link :href="route('pedidos.index')" :active="request()->routeIs('pedidos.*')">
                         {{ __('Pedidos') }}
                     </x-responsive-nav-link>
+
+                    {{-- Pagos --}}
+                    <x-responsive-nav-link :href="route('pagos.index')" :active="request()->routeIs('pagos.*')">
+                        {{ __('Pagos') }}
+                    </x-responsive-nav-link>
+
+                    {{-- Noticias --}}
+                    <x-responsive-nav-link :href="route('noticias.index')" :active="request()->routeIs('noticias.*')">
+                        {{ __('Noticias') }}
+                    </x-responsive-nav-link>
+
+                    {{-- Promociones --}}
+                    <x-responsive-nav-link :href="route('promociones.index')" :active="request()->routeIs('promociones.*')">
+                        {{ __('Promociones') }}
+                    </x-responsive-nav-link>
                 @endif
 
-                {{-- EMPLEADO --}}
                 @if(auth()->user()->rol === 'empleado')
                     <x-responsive-nav-link :href="route('pedidos.index')" :active="request()->routeIs('pedidos.index')">
                         {{ __('Mis Pedidos') }}
@@ -171,6 +205,17 @@
 
                     <x-responsive-nav-link :href="route('horarios.index')" :active="request()->routeIs('horarios.index')">
                         {{ __('Mis Horarios') }}
+                    </x-responsive-nav-link>
+                @endif
+
+                @if(auth()->user()->rol === 'cliente')
+                    <x-responsive-nav-link :href="route('pedidos.index')" :active="request()->routeIs('pedidos.index')">
+                        {{ __('Mis Pedidos') }}
+                    </x-responsive-nav-link>
+
+                    {{-- Pagos cliente --}}
+                    <x-responsive-nav-link :href="route('pagos.index')" :active="request()->routeIs('pagos.*')">
+                        {{ __('Mis Pagos') }}
                     </x-responsive-nav-link>
                 @endif
             @endauth
