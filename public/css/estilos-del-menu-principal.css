@@ -1,0 +1,122 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(135deg, #ffd700 0%, #ffed4e 30%, #fff8dc 70%, #ffd700 100%);
+  background-attachment: fixed;
+  color: #2c1810;
+  text-align: center;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow-x: hidden;
+}
+
+header {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 248, 220, 0.95) 100%);
+  padding: 25px 50px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  backdrop-filter: blur(15px);
+  box-shadow: 0 4px 20px rgba(255, 215, 0, 0.2);
+  border-bottom: 2px solid rgba(255, 215, 0, 0.3);
+}
+
+.header-link {
+  text-decoration: none;
+  color: #2c1810;
+  font-weight: bold;
+  font-size: 18px;
+  padding: 10px 20px;
+  border-radius: 25px;
+  transition: all 0.3s ease;
+}
+
+.header-link:hover {
+  background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
+  color: #000;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(255, 215, 0, 0.4);
+}
+
+.circulos-principales {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 120px;
+  padding: 120px 50px;
+  flex-wrap: wrap;
+  position: relative;
+}
+
+.circulo {
+  position: relative;
+  border-radius: 100%;
+  overflow: hidden;
+  text-align: center;
+  font-weight: bold;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+  transition: all 0.4s ease;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  border: 4px solid rgba(255, 215, 0, 0.8);
+  z-index: 1;
+}
+
+.circulo:hover {
+  transform: scale(1.05) rotate(5deg);
+  box-shadow: 0 20px 40px rgba(255, 215, 0, 0.4);
+  border-color: #ffed4e;
+}
+
+.circulo img {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+  transition: transform 0.4s ease;
+  filter: brightness(0.8);
+}
+
+.circulo:hover img {
+  transform: scale(1.1);
+  filter: brightness(1);
+}
+
+.circulo span {
+  position: relative;
+  z-index: 2;
+  padding: 100px;
+  text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.8);
+  font-family: 'Segoe UI', sans-serif;
+  text-transform: uppercase;
+  text-align: center;
+  font-weight: 900;
+  letter-spacing: 2px;
+}
+
+.circulo.small {
+  width: 280px;
+  height: 280px;
+  font-size: 16px;
+}
+
+.circulo.central {
+  width: 550px;
+  height: 550px;
+  font-size: 20px;
+  border-width: 6px;
+}

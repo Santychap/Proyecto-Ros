@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
 class Pago extends Model
 {
@@ -14,30 +14,18 @@ class Pago extends Model
         'user_id',
         'monto',
         'metodo',
-        'datos_pago',
         'fecha_pago',
+        'datos_pago'
     ];
 
-    // Relación con el pedido asociado
+    protected $casts = [
+        'fecha_pago' => 'datetime',
+        'monto' => 'decimal:2',
+        'datos_pago' => 'array'
+    ];
+
     public function pedido()
     {
         return $this->belongsTo(Pedido::class);
     }
-
-    // Relación con el usuario que realizó el pago
-    public function user()
-    {
-        return $this->belongsTo(User::class);
-    }
-
-   protected $casts = [
-    'created_at' => 'datetime',
-    'updated_at' => 'datetime',
-    'fecha_pago' => 'datetime', // <- agrega esta línea
-];
-
-public function detalles()
-{
-    return $this->hasMany(DetallePago::class);
-}
 }

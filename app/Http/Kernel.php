@@ -34,6 +34,7 @@ class Kernel extends HttpKernel
             \Illuminate\View\Middleware\ShareErrorsFromSession::class,
             \App\Http\Middleware\VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
+            \App\Http\Middleware\RoleRedirect::class,
         ],
 
         'api' => [
@@ -64,6 +65,7 @@ class Kernel extends HttpKernel
     // Agrega esta línea:
     'rol' => \App\Http\Middleware\RolMiddleware::class,
     //'rol' => \App\Http\Middleware\CheckRol::class,
+    'role.redirect' => \App\Http\Middleware\RoleRedirect::class,
 
     
 

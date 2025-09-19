@@ -163,4 +163,57 @@ class ReservaController extends Controller
             ->orderBy('capacidad', 'asc') // opcional: usar la mesa más pequeña posible
             ->first();
     }
+
+    // Método público para mostrar formulario de reservas
+    public function publicIndex()
+    {
+        return view('reservas.public');
+    }
+
+    // Método público para guardar reserva sin autenticación
+    public function publicStore(Request $request)
+    {
+        $validatedData = $request->validate([
+            'nombre'   => 'required|string|max:255',
+            'email'    => 'required|email|max:255',
+            'telefono' => 'required|string|max:20',
+            'fecha'    => 'required|date|after_or_equal:today',
+            'hora'     => 'required',
+            'personas' => 'required|integer|min:1|max:12',
+            'motivo'   => 'nullable|string|max:255',
+            'nota'     => 'nullable|string|max:1000',
+        ]);
+
+        // Buscar mesa disponible
+        $mesa = $this->buscarMesaDisponible($validatedData['fecha'], $validatedData['hora'], $validatedData['personas']);
+
+        if (!$mesa) {
+            return back()->with('error', 'No hay mesas disponibles para esa fecha y hora. Por favor, selecciona otra fecha u hora.')->withInput();
+        }
+
+        // Buscar o crear usuario temporal
+        $user = User::firstOrCreate(
+            ['email' => $validatedData['email']],
+            [
+                'name' => $validatedData['nombre'],
+                'password' => bcrypt('temporal123'), // Contraseña temporal
+                'rol' => 'cliente'
+            ]
+        );
+
+        // Crear reserva
+        Reserva::create([
+            'user_id' => $user->id,
+            'mesa_id' => $mesa->id,
+            'fecha' => $validatedData['fecha'],
+            'hora' => $validatedData['hora'],
+            'personas' => $validatedData['personas'],
+            'motivo' => $validatedData['motivo'],
+            'nota' => $validatedData['nota'],
+            'estado' => 'Pendiente',
+            'empleado_id' => User::where('rol', 'empleado')->first()?->id,
+        ]);
+
+        return back()->with('success', '¡Reserva creada exitosamente! Te contactaremos pronto para confirmar los detalles.');
+    }
 }

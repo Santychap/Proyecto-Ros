@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Categoria extends Model
 {
     // 👇 Aquí especificamos el nombre real de la tabla
-    protected $table = 'categories';
+    protected $table = 'categorias';
 
     // Los campos que se pueden asignar masivamente
     protected $fillable = ['nombre'];

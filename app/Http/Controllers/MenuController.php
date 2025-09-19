@@ -8,7 +8,7 @@ class MenuController extends Controller
 {
     public function index()
     {
-        $productos = Producto::all();
+        $productos = Producto::with('categoria')->where('stock', '>', 0)->get();
         return view('menu.index', compact('productos'));
     }
 }

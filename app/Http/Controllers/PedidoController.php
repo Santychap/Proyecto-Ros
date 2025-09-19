@@ -203,4 +203,46 @@ class PedidoController extends Controller
 
         return back()->with('success', 'Pedido cancelado por el administrador.');
     }
+
+    // Eliminar pedido (solo admin)
+    public function destroy(Pedido $pedido)
+    {
+        $user = auth()->user();
+
+        if ($user->rol !== 'admin') {
+            abort(403);
+        }
+
+        // Eliminar detalles del pedido primero
+        $pedido->detalles()->delete();
+        
+        // Eliminar pagos relacionados si existen
+        $pedido->pagos()->delete();
+        
+        // Eliminar el pedido
+        $pedido->delete();
+
+        return back()->with('success', 'Pedido eliminado correctamente.');
+    }
+
+    // Vaciar todos los pedidos (solo admin)
+    public function vaciarTodos()
+    {
+        $user = auth()->user();
+
+        if ($user->rol !== 'admin') {
+            abort(403);
+        }
+
+        try {
+            // Eliminar en el orden correcto para respetar las claves foráneas
+            DetallePedido::query()->delete();
+            Pago::query()->delete();
+            Pedido::query()->delete();
+
+            return back()->with('success', 'Todos los pedidos han sido eliminados correctamente.');
+        } catch (\Exception $e) {
+            return back()->with('error', 'Error al eliminar los pedidos: ' . $e->getMessage());
+        }
+    }
 }

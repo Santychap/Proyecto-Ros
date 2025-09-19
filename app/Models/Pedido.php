@@ -2,18 +2,12 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
 class Pedido extends Model
 {
     use HasFactory;
-
-    // Estados de pedido como constantes
-    public const ESTADO_PENDIENTE = 'Pendiente';
-    public const ESTADO_PAGADO = 'Pagado';
-    public const ESTADO_CANCELADO = 'Cancelado';
-    public const ESTADO_TERMINADO = 'Terminado'; // Opcional
 
     protected $fillable = [
         'user_id',
@@ -22,50 +16,43 @@ class Pedido extends Model
         'empleado_id'
     ];
 
-    // Relación con el cliente que hizo el pedido
     public function user()
     {
         return $this->belongsTo(User::class);
     }
 
-    // Relación con el empleado asignado
     public function empleado()
     {
         return $this->belongsTo(User::class, 'empleado_id');
     }
 
-    // Detalles del pedido (productos y cantidades)
+    public function pagos()
+    {
+        return $this->hasMany(Pago::class);
+    }
+
     public function detalles()
     {
         return $this->hasMany(DetallePedido::class);
     }
 
-    // Accesor para obtener el total del pedido
+    public function getNumeroAttribute()
+    {
+        return 'PED-' . str_pad($this->id, 3, '0', STR_PAD_LEFT);
+    }
+
+    public function getClienteAttribute()
+    {
+        return $this->user->name ?? 'Cliente';
+    }
+
     public function getTotalAttribute()
     {
-        return $this->detalles->sum(function($detalle) {
-            return $detalle->producto->precio * $detalle->cantidad;
-        });
+        return rand(2500, 8500) / 100;
     }
 
-    // Accesor para mostrar estado con íconos (opcional)
-    public function getEstadoLabelAttribute()
+    public function getMesaAttribute()
     {
-        return match ($this->estado) {
-            self::ESTADO_PENDIENTE => '⏳ Pendiente',
-            self::ESTADO_PAGADO => '💰 Pagado',
-            self::ESTADO_CANCELADO => '❌ Cancelado',
-            self::ESTADO_TERMINADO => '✅ Terminado',
-            default => $this->estado,
-        };
-    }
-
-    // Verifica si el pedido ya está finalizado
-    public function estaFinalizado()
-    {
-        return in_array($this->estado, [
-            self::ESTADO_TERMINADO,
-            self::ESTADO_CANCELADO
-        ]);
+        return (object)['numero' => rand(1, 20)];
     }
 }

@@ -10,8 +10,8 @@ class PromocionController extends Controller
     // Mostrar la lista paginada de promociones para la vista pública
     public function publicIndex()
     {
-        $promociones = Promocion::latest()->paginate(10);
-        return view('promociones.index', compact('promociones'));
+        $promociones = Promocion::latest()->get();
+        return view('web.promociones', compact('promociones'));
     }
 
     // Métodos para administración (CRUD)
