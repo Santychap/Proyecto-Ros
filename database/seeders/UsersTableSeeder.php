@@ -21,7 +21,7 @@ class UsersTableSeeder extends Seeder
         $admin = User::create([
             'name' => 'Admin Restaurante',
             'email' => 'admin@restaurante.com',
-            'password' => Hash::make('password1234'),
+            'password' => Hash::make('b'),
         ]);
         $admin->assignRole('admin');
 
@@ -30,7 +30,7 @@ class UsersTableSeeder extends Seeder
         $empleado = User::create([
             'name' => 'Empleado Mesero',
             'email' => 'empleado@restaurante.com',
-            'password' => Hash::make('password1234'),
+            // 'password' => Hash::make('password1234'),
         ]);
         $empleado->assignRole('empleado');
 
