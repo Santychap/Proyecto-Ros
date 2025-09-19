@@ -42,6 +42,7 @@ new #[Layout('layouts.guest')] class extends Component
     {
         return <<<'blade'
 <div>
+<<<<<<< HEAD
     <form wire:submit.prevent="register" class="register-form">
         <div class="form-group">
             <label for="name">Nombre completo</label>
@@ -80,6 +81,19 @@ new #[Layout('layouts.guest')] class extends Component
             <i class="fas fa-user-plus"></i>
             Crear cuenta
         </button>
+=======
+    <form wire:submit.prevent="register">
+        <input type="text" wire:model="name" placeholder="Nombre" required />
+        <input type="email" wire:model="email" placeholder="Correo electrónico" required />
+        <input type="password" wire:model="password" placeholder="Contraseña" required />
+        <input type="password" wire:model="password_confirmation" placeholder="Confirmar contraseña" required />
+        <select wire:model="rol" required>
+            <option value="">Selecciona un rol</option>
+            <option value="cliente">Cliente</option>
+            <option value="empleado">Empleado</option>
+        </select>
+        <button type="submit">Registrar</button>
+>>>>>>> c5eafba12a8e0645d3d855a7405f2f47bcd1ef45
     </form>
     
     <div class="terms">

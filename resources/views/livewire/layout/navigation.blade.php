@@ -66,6 +66,7 @@
                                 </a>
                             </li>
 
+<<<<<<< HEAD
                             <li>
                                 <a href="{{ route('pedidos.index') }}" class="nav-link-elegant {{ request()->routeIs('pedidos.*') ? 'active' : '' }}">
                                     <i class="fas fa-clipboard-list"></i> Pedidos
@@ -91,6 +92,28 @@
                             </li>
                         @endif
 
+=======
+                            <x-nav-link :href="route('pedidos.index')" :active="request()->routeIs('pedidos.*')">
+                                {{ __('Pedidos') }}
+                            </x-nav-link>
+
+                            {{-- Pagos --}}
+                            <x-nav-link :href="route('pagos.index')" :active="request()->routeIs('pagos.*')">
+                                {{ __('Pagos') }}
+                            </x-nav-link>
+
+                            {{-- Noticias --}}
+                            <x-nav-link :href="route('noticias.index')" :active="request()->routeIs('noticias.*')">
+                                {{ __('Noticias') }}
+                            </x-nav-link>
+
+                            {{-- Promociones --}}
+                            <x-nav-link :href="route('promociones.index')" :active="request()->routeIs('promociones.*')">
+                                {{ __('Promociones') }}
+                            </x-nav-link>
+                        @endif
+
+>>>>>>> c5eafba12a8e0645d3d855a7405f2f47bcd1ef45
                         @if(auth()->user()->rol === 'empleado')
                             <li>
                                 <a href="{{ route('pedidos.index') }}" class="nav-link-elegant {{ request()->routeIs('pedidos.index') ? 'active' : '' }}">
@@ -117,6 +140,17 @@
                                     <i class="fas fa-credit-card"></i> Mis Pagos
                                 </a>
                             </li>
+                        @endif
+
+                        @if(auth()->user()->rol === 'cliente')
+                            <x-nav-link :href="route('pedidos.index')" :active="request()->routeIs('pedidos.index')">
+                                {{ __('Mis Pedidos') }}
+                            </x-nav-link>
+
+                            {{-- Pagos cliente --}}
+                            <x-nav-link :href="route('pagos.index')" :active="request()->routeIs('pagos.*')">
+                                {{ __('Mis Pagos') }}
+                            </x-nav-link>
                         @endif
                     @endauth
                 </ul>
@@ -152,6 +186,24 @@
                         </form>
                     </div>
                 </div>
+<<<<<<< HEAD
+=======
+            @endauth
+
+            <!-- Hamburger -->
+            <div class="-me-2 flex items-center sm:hidden">
+                <button @click="open = ! open"
+                    class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out">
+                    <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
+                        <path :class="{ 'hidden': open, 'inline-flex': ! open }" class="inline-flex"
+                            stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M4 6h16M4 12h16M4 18h16" />
+                        <path :class="{ 'hidden': ! open, 'inline-flex': open }" class="hidden"
+                            stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+>>>>>>> c5eafba12a8e0645d3d855a7405f2f47bcd1ef45
             </div>
         @endauth
 
@@ -203,6 +255,7 @@
                         <i class="fas fa-clock"></i> Horarios
                     </a>
 
+<<<<<<< HEAD
                     <a href="{{ route('pedidos.index') }}" class="mobile-menu-item {{ request()->routeIs('pedidos.*') ? 'active' : '' }}">
                         <i class="fas fa-clipboard-list"></i> Pedidos
                     </a>
@@ -210,6 +263,32 @@
                     <a href="{{ route('pagos.index') }}" class="mobile-menu-item {{ request()->routeIs('pagos.*') ? 'active' : '' }}">
                         <i class="fas fa-credit-card"></i> Pagos
                     </a>
+=======
+                    <x-responsive-nav-link :href="route('pedidos.index')" :active="request()->routeIs('pedidos.*')">
+                        {{ __('Pedidos') }}
+                    </x-responsive-nav-link>
+
+                    {{-- Pagos --}}
+                    <x-responsive-nav-link :href="route('pagos.index')" :active="request()->routeIs('pagos.*')">
+                        {{ __('Pagos') }}
+                    </x-responsive-nav-link>
+
+                    {{-- Noticias --}}
+                    <x-responsive-nav-link :href="route('noticias.index')" :active="request()->routeIs('noticias.*')">
+                        {{ __('Noticias') }}
+                    </x-responsive-nav-link>
+
+                    {{-- Promociones --}}
+                    <x-responsive-nav-link :href="route('promociones.index')" :active="request()->routeIs('promociones.*')">
+                        {{ __('Promociones') }}
+                    </x-responsive-nav-link>
+                @endif
+
+                @if(auth()->user()->rol === 'empleado')
+                    <x-responsive-nav-link :href="route('pedidos.index')" :active="request()->routeIs('pedidos.index')">
+                        {{ __('Mis Pedidos') }}
+                    </x-responsive-nav-link>
+>>>>>>> c5eafba12a8e0645d3d855a7405f2f47bcd1ef45
 
                     <a href="{{ route('noticias.index') }}" class="mobile-menu-item {{ request()->routeIs('noticias.*') ? 'active' : '' }}">
                         <i class="fas fa-newspaper"></i> Noticias
@@ -218,6 +297,17 @@
                     <a href="{{ route('promociones.index') }}" class="mobile-menu-item {{ request()->routeIs('promociones.*') ? 'active' : '' }}">
                         <i class="fas fa-percent"></i> Promociones
                     </a>
+                @endif
+
+                @if(auth()->user()->rol === 'cliente')
+                    <x-responsive-nav-link :href="route('pedidos.index')" :active="request()->routeIs('pedidos.index')">
+                        {{ __('Mis Pedidos') }}
+                    </x-responsive-nav-link>
+
+                    {{-- Pagos cliente --}}
+                    <x-responsive-nav-link :href="route('pagos.index')" :active="request()->routeIs('pagos.*')">
+                        {{ __('Mis Pagos') }}
+                    </x-responsive-nav-link>
                 @endif
             @endauth
 

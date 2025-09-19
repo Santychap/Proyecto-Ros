@@ -1,16 +1,25 @@
+<<<<<<< HEAD
 @extends('layouts.menu')
 
 @section('content')
+=======
+<x-app-layout>
+>>>>>>> c5eafba12a8e0645d3d855a7405f2f47bcd1ef45
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">Promociones</h2>
     </x-slot>
 
+<<<<<<< HEAD
     <div class="py-6 max-w-7xl mx-auto sm:px-6 lg:px-8 promos-theme">
+=======
+    <div class="py-6 max-w-7xl mx-auto sm:px-6 lg:px-8">
+>>>>>>> c5eafba12a8e0645d3d855a7405f2f47bcd1ef45
 
         @if(session('success'))
             <div class="mb-4 p-4 bg-green-200 text-green-800 rounded">{{ session('success') }}</div>
         @endif
 
+<<<<<<< HEAD
         <a href="{{ route('promociones.create') }}" class="mb-4 inline-block btn-promos">
             Crear Promoción
         </a>
@@ -23,11 +32,26 @@
                     <th>Fecha Inicio</th>
                     <th>Fecha Fin</th>
                     <th>Acciones</th>
+=======
+        <a href="{{ route('promociones.create') }}" class="mb-4 inline-block bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+            Crear Promoción
+        </a>
+
+        <table class="min-w-full bg-white border border-gray-300">
+            <thead>
+                <tr>
+                    <th class="py-2 px-4 border-b">Título</th>
+                    <th class="py-2 px-4 border-b">Descuento (%)</th>
+                    <th class="py-2 px-4 border-b">Fecha Inicio</th>
+                    <th class="py-2 px-4 border-b">Fecha Fin</th>
+                    <th class="py-2 px-4 border-b">Acciones</th>
+>>>>>>> c5eafba12a8e0645d3d855a7405f2f47bcd1ef45
                 </tr>
             </thead>
             <tbody>
                 @forelse ($promociones as $promocion)
                     <tr>
+<<<<<<< HEAD
                         <td>{{ $promocion->titulo }}</td>
                         <td><span class="badge-discount">{{ $promocion->descuento ?? '-' }}%</span></td>
                         <td>{{ $promocion->fecha_inicio->format('d/m/Y') }}</td>
@@ -38,6 +62,18 @@
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="btn-action btn-delete" title="Eliminar"><i class="fas fa-trash"></i> <span>Eliminar</span></button>
+=======
+                        <td class="border-b py-2 px-4">{{ $promocion->titulo }}</td>
+                        <td class="border-b py-2 px-4">{{ $promocion->descuento ?? '-' }}</td>
+                        <td class="border-b py-2 px-4">{{ $promocion->fecha_inicio->format('d/m/Y') }}</td>
+                        <td class="border-b py-2 px-4">{{ $promocion->fecha_fin->format('d/m/Y') }}</td>
+                        <td class="border-b py-2 px-4 space-x-2">
+                            <a href="{{ route('promociones.edit', $promocion) }}" class="text-blue-600 hover:underline">Editar</a>
+                            <form action="{{ route('promociones.destroy', $promocion) }}" method="POST" class="inline-block" onsubmit="return confirm('¿Eliminar promoción?');">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="text-red-600 hover:underline">Eliminar</button>
+>>>>>>> c5eafba12a8e0645d3d855a7405f2f47bcd1ef45
                             </form>
                         </td>
                     </tr>
@@ -51,6 +87,7 @@
             {{ $promociones->links() }}
         </div>
     </div>
+<<<<<<< HEAD
     <style>
     .promos-theme { --p-bg:#0f1117; --p-panel:#111827; --p-panel-2:#0b0f1a; --p-text:#e5e7eb; --p-muted:#9ca3af; --p-gold:#f4d03f; --p-outline:rgba(244,208,63,0.35); }
     .promos-table { width: 100%; border-collapse: separate; border-spacing: 0 10px; }
@@ -70,3 +107,6 @@
     .btn-promos:hover { background: var(--p-gold); color:#0b0f1a; border-color: var(--p-gold); }
     </style>
 @endsection
+=======
+</x-app-layout>
+>>>>>>> c5eafba12a8e0645d3d855a7405f2f47bcd1ef45

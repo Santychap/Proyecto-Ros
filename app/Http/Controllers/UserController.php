@@ -7,9 +7,6 @@ use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index(Request $request)
     {
         $search = $request->input('search');
@@ -18,26 +15,20 @@ class UserController extends Controller
             ->when($search, function ($query, $search) {
                 $query->where(function ($q) use ($search) {
                     $q->where('name', 'like', "%{$search}%")
-                      ->orWhere('email', 'like', "%{$search}%");
+                     ->orWhere('email', 'like', "%{$search}%");
                 });
             })
-            ->orderBy('id', 'asc') // Mostrar primero los IDs pequeños
+            ->orderBy('id', 'asc')
             ->paginate(10);
 
         return view('users.index', compact('users'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         return view('users.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         $data = $request->validate([
@@ -48,23 +39,18 @@ class UserController extends Controller
         ]);
 
         $data['password'] = bcrypt($data['password']);
+        $data['estado'] = true; // Por defecto activo
 
         User::create($data);
 
         return redirect()->route('users.index')->with('success', 'Usuario creado correctamente.');
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(User $user)
     {
         return view('users.edit', compact('user'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, User $user)
     {
         $data = $request->validate([
@@ -85,9 +71,6 @@ class UserController extends Controller
         return redirect()->route('users.index')->with('success', 'Usuario actualizado correctamente.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(User $user)
     {
         $user->delete();
@@ -95,15 +78,30 @@ class UserController extends Controller
         return redirect()->route('users.index')->with('success', 'Usuario eliminado correctamente.');
     }
 
-    /**
-     * Mostrar horarios del usuario autenticado.
-     */
     public function misHorarios()
     {
         $user = auth()->user();
-        $horarios = $user->horarios; // Relación desde el modelo User
+        $horarios = $user->horarios;
         return view('empleado.horarios', compact('horarios'));
     }
 
+    // ✅ NUEVO: Desactivar usuario
+    public function deactivate($id)
+    {
+        $user = User::findOrFail($id);
+        $user->estado = false;
+        $user->save();
 
+        return redirect()->route('users.index')->with('success', 'Usuario desactivado correctamente.');
+    }
+
+    // ✅ NUEVO: Activar usuario
+    public function activate($id)
+    {
+        $user = User::findOrFail($id);
+        $user->estado = true;
+        $user->save();
+
+        return redirect()->route('users.index')->with('success', 'Usuario activado correctamente.');
+    }
 }

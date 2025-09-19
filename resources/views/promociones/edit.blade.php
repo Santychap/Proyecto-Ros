@@ -3,12 +3,18 @@
         <h2 class="font-semibold text-xl text-gray-800">Editar Promoción</h2>
     </x-slot>
 
+<<<<<<< HEAD
     <div class="py-6 promos-theme">
         <div class="max-w-4xl mx-auto promo-card p-8 shadow rounded">
+=======
+    <div class="py-6">
+        <div class="max-w-4xl mx-auto bg-white p-6 shadow rounded">
+>>>>>>> c5eafba12a8e0645d3d855a7405f2f47bcd1ef45
             <form action="{{ route('promociones.update', $promocion) }}" method="POST">
                 @csrf
                 @method('PUT')
 
+<<<<<<< HEAD
                 <div class="mb-6">
                     <label class="block font-medium text-sm label-muted">Título</label>
                     <input type="text" name="titulo" value="{{ old('titulo', $promocion->titulo) }}" class="mt-1 block w-full input-dark" required>
@@ -41,11 +47,46 @@
                 <div class="flex justify-end space-x-4 actions-bar">
                     <a href="{{ route('promociones.index') }}" class="btn-dark">Cancelar</a>
                     <button type="submit" class="btn-gold">Actualizar Promoción</button>
+=======
+                <div class="mb-4">
+                    <label class="block font-medium text-sm text-gray-700">Título</label>
+                    <input type="text" name="titulo" value="{{ old('titulo', $promocion->titulo) }}" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm" required>
+                    @error('titulo') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+                </div>
+
+                <div class="mb-4">
+                    <label class="block font-medium text-sm text-gray-700">Descripción</label>
+                    <textarea name="descripcion" rows="3" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">{{ old('descripcion', $promocion->descripcion) }}</textarea>
+                </div>
+
+                <div class="mb-4">
+                    <label class="block font-medium text-sm text-gray-700">Descuento (%)</label>
+                    <input type="number" name="descuento" value="{{ old('descuento', $promocion->descuento) }}" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm" required min="0" max="100" step="0.01">
+                    @error('descuento') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+                </div>
+
+                <div class="mb-4">
+                    <label class="block font-medium text-sm text-gray-700">Fecha de Inicio</label>
+                    <input type="date" name="fecha_inicio" value="{{ old('fecha_inicio', $promocion->fecha_inicio->format('Y-m-d')) }}" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm" required>
+                    @error('fecha_inicio') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+                </div>
+
+                <div class="mb-4">
+                    <label class="block font-medium text-sm text-gray-700">Fecha de Fin</label>
+                    <input type="date" name="fecha_fin" value="{{ old('fecha_fin', $promocion->fecha_fin ? $promocion->fecha_fin->format('Y-m-d') : '') }}" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
+                    @error('fecha_fin') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+                </div>
+
+                <div class="flex justify-end space-x-4">
+                    <a href="{{ route('promociones.index') }}" class="px-4 py-2 bg-gray-500 text-white rounded">Cancelar</a>
+                    <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded">Actualizar Promoción</button>
+>>>>>>> c5eafba12a8e0645d3d855a7405f2f47bcd1ef45
                 </div>
             </form>
         </div>
     </div>
 </x-app-layout>
+<<<<<<< HEAD
 <style>
 .promos-theme { --p-bg:#0f1117; --p-panel:#111827; --p-panel-2:#0b0f1a; --p-text:#e5e7eb; --p-muted:#9ca3af; --p-gold:#f4d03f; --p-outline:rgba(244,208,63,0.35); }
 .promo-card { background: linear-gradient(180deg, var(--p-panel) 0%, var(--p-panel-2) 100%); border:1px solid rgba(255,255,255,0.06); border-radius:16px; color: var(--p-text); }
@@ -59,3 +100,5 @@ textarea.input-dark { height: auto; min-height: 110px; padding-top: 12px; }
 .btn-gold:hover { filter: brightness(1.05); }
 .actions-bar { margin-top: 8px; }
 </style>
+=======
+>>>>>>> c5eafba12a8e0645d3d855a7405f2f47bcd1ef45
