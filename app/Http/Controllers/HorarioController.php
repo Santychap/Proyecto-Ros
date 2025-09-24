@@ -33,7 +33,11 @@ class HorarioController extends Controller
         $horarios = $user->horarios;
     }
 
-    return view('horarios.index', compact('horarios', 'search'));
+    if ($user->rol === 'empleado') {
+        return view('horarios.empleado', compact('horarios'));
+    } else {
+        return view('horarios.index', compact('horarios', 'search'));
+    }
 }
 
 
@@ -44,9 +48,9 @@ class HorarioController extends Controller
             abort(403);
         }
 
-        $empleados = User::where('rol', 'empleado')->get();
+        $usuarios = User::where('rol', 'empleado')->get();
 
-        return view('horarios.create', compact('empleados'));
+        return view('horarios.create', compact('usuarios'));
     }
 
     // Guardar nuevo horario (solo admin)
@@ -75,9 +79,9 @@ class HorarioController extends Controller
             abort(403);
         }
 
-        $empleados = User::where('rol', 'empleado')->get();
+        $usuarios = User::where('rol', 'empleado')->get();
 
-        return view('horarios.edit', compact('horario', 'empleados'));
+        return view('horarios.edit', compact('horario', 'usuarios'));
     }
 
     // Actualizar horario (solo admin)

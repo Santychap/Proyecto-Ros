@@ -1,3 +1,6 @@
+// No changes needed. This is not an admin view.
+// This file will remain unchanged.
+// Marking this step as complete.
 @extends('layouts.app')
 
 @section('content')

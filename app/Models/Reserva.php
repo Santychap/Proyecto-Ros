@@ -9,12 +9,17 @@ class Reserva extends Model
 {
     use HasFactory;
 
+    const ESTADO_PENDIENTE = 'pendiente';
+    const ESTADO_CONFIRMADA = 'confirmada';
+    const ESTADO_CANCELADA = 'cancelada';
+    const ESTADO_COMPLETADA = 'completada';
+
     protected $fillable = [
         'user_id',
         'fecha',
         'hora',
         'personas',
-        'mesa_id',
+        'mesas',
         'motivo',
         'nota',
         'estado',
@@ -26,7 +31,12 @@ class Reserva extends Model
     }
 
     public function mesa()
-{
-    return $this->belongsTo(Mesa::class);
-}
+    {
+        return $this->belongsTo(Mesa::class, 'mesas');
+    }
+
+    public function isActiva()
+    {
+        return in_array($this->estado, [self::ESTADO_PENDIENTE, self::ESTADO_CONFIRMADA]);
+    }
 }

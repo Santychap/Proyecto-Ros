@@ -7,9 +7,6 @@ use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index(Request $request)
     {
         $search = $request->input('search');
@@ -21,23 +18,17 @@ class UserController extends Controller
                       ->orWhere('email', 'like', "%{$search}%");
                 });
             })
-            ->orderBy('id', 'asc') // Mostrar primero los IDs pequeños
+            ->orderBy('id', 'asc')
             ->paginate(10);
 
         return view('users.index', compact('users'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         return view('users.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         $data = $request->validate([
@@ -47,47 +38,32 @@ class UserController extends Controller
             'rol' => 'required|string|in:admin,cliente,empleado',
         ]);
 
+        // contraseña encriptada
         $data['password'] = bcrypt($data['password']);
+        // por defecto activo
+        $data['estado'] = true;
 
         User::create($data);
 
         return redirect()->route('users.index')->with('success', 'Usuario creado correctamente.');
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(User $user)
     {
         return view('users.edit', compact('user'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, User $user)
     {
         $data = $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email,' . $user->id,
             'rol' => 'required|string|in:admin,cliente,empleado',
-            'password' => 'nullable|string|min:8|confirmed',
         ]);
-
-        if (!empty($data['password'])) {
-            $data['password'] = bcrypt($data['password']);
-        } else {
-            unset($data['password']);
-        }
 
         $user->update($data);
 
-        return redirect()->route('users.index')->with('success', 'Usuario actualizado correctamente.');
+        return redirect()->route('users.index')->with('success', 'Rol de usuario actualizado correctamente.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(User $user)
     {
         $user->delete();
@@ -95,15 +71,30 @@ class UserController extends Controller
         return redirect()->route('users.index')->with('success', 'Usuario eliminado correctamente.');
     }
 
-    /**
-     * Mostrar horarios del usuario autenticado.
-     */
     public function misHorarios()
     {
         $user = auth()->user();
-        $horarios = $user->horarios; // Relación desde el modelo User
+        $horarios = $user->horarios;
         return view('empleado.horarios', compact('horarios'));
     }
 
+    // ✅ Inhabilitar usuario
+    public function deactivate($id)
+    {
+        $user = User::findOrFail($id);
+        $user->estado = false; // inhabilitado
+        $user->save();
 
+        return redirect()->route('users.index')->with('success', 'Usuario inhabilitado correctamente.');
+    }
+
+    // ✅ Activar usuario
+    public function activate($id)
+    {
+        $user = User::findOrFail($id);
+        $user->estado = true; // activo
+        $user->save();
+
+        return redirect()->route('users.index')->with('success', 'Usuario activado correctamente.');
+    }
 }

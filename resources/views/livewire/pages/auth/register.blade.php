@@ -42,18 +42,54 @@ new #[Layout('layouts.guest')] class extends Component
     {
         return <<<'blade'
 <div>
-    <form wire:submit.prevent="register">
-        <input type="text" wire:model="name" placeholder="Nombre" required />
-        <input type="email" wire:model="email" placeholder="Correo electrónico" required />
-        <input type="password" wire:model="password" placeholder="Contraseña" required />
-        <input type="password" wire:model="password_confirmation" placeholder="Confirmar contraseña" required />
-        <select wire:model="rol" required>
-            <option value="">Selecciona un rol</option>
-            <option value="cliente">Cliente</option>
-            <option value="empleado">Empleado</option>
-        </select>
-        <button type="submit">Registrar</button>
+    <form wire:submit.prevent="register" class="register-form">
+        <div class="form-group">
+            <label for="name">Nombre completo</label>
+            <input type="text" wire:model="name" id="name" placeholder="Ingresa tu nombre completo" required />
+            @error('name') <span class="error-message">{{ $message }}</span> @enderror
+        </div>
+        
+        <div class="form-group">
+            <label for="email">Correo electrónico</label>
+            <input type="email" wire:model="email" id="email" placeholder="ejemplo@correo.com" required />
+            @error('email') <span class="error-message">{{ $message }}</span> @enderror
+        </div>
+        
+        <div class="form-group">
+            <label for="password">Contraseña</label>
+            <input type="password" wire:model="password" id="password" placeholder="Mínimo 8 caracteres" required />
+            @error('password') <span class="error-message">{{ $message }}</span> @enderror
+        </div>
+        
+        <div class="form-group">
+            <label for="password_confirmation">Confirmar contraseña</label>
+            <input type="password" wire:model="password_confirmation" id="password_confirmation" placeholder="Repite tu contraseña" required />
+        </div>
+        
+        <div class="form-group">
+            <label for="rol">Tipo de cuenta</label>
+            <select wire:model="rol" id="rol" required>
+                <option value="">Selecciona un tipo de cuenta</option>
+                <option value="cliente">Cliente</option>
+                <option value="empleado">Empleado</option>
+            </select>
+            @error('rol') <span class="error-message">{{ $message }}</span> @enderror
+        </div>
+        
+        <button type="submit" class="submit-btn">
+            <i class="fas fa-user-plus"></i>
+            Crear Cuenta
+        </button>
     </form>
+    
+    <div class="terms">
+        <p>
+            ¿Ya tienes cuenta? 
+            <a href="/login" wire:navigate>
+                Inicia sesión aquí
+            </a>
+        </p>
+    </div>
 </div>
 blade;
     }

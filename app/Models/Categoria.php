@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Categoria extends Model
 {
     // 👇 Aquí especificamos el nombre real de la tabla
-    protected $table = 'categories';
+    protected $table = 'categorias';
 
     // Los campos que se pueden asignar masivamente
     protected $fillable = ['nombre'];
@@ -16,5 +16,15 @@ class Categoria extends Model
     public function productos()
     {
         return $this->hasMany(Producto::class);
+    }
+
+    public function productosDisponibles()
+    {
+        return $this->productos()->where('stock', '>', 0);
+    }
+
+    public function getTotalProductosAttribute()
+    {
+        return $this->productos()->count();
     }
 }

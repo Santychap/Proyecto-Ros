@@ -10,14 +10,22 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net" />
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
     <!-- Tom Select CSS -->
     <link href="https://cdn.jsdelivr.net/npm/tom-select/dist/css/tom-select.css" rel="stylesheet" />
 
+    <!-- Dashboard Styles -->
+    <link rel="stylesheet" href="{{ asset('css/dashboard.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/global-background.css') }}">
+
     <!-- Scripts -->
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <script src="https://cdn.tailwindcss.com"></script>
+    @stack('styles')
 </head>
-<body class="font-sans antialiased">
+<body class="font-sans antialiased" style="background: linear-gradient(120deg, #fff 60%, #181828 100%); background-attachment: fixed; color: #181828;">
     <div class="min-h-screen bg-gray-100">
         <livewire:layout.navigation />
 
@@ -61,5 +69,6 @@
             }
         });
     </script>
+    @stack('scripts')
 </body>
 </html>

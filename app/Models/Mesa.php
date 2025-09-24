@@ -14,6 +14,12 @@ class Mesa extends Model
 
     public function reservas()
     {
-        return $this->hasMany(Reserva::class);
+        return $this->hasMany(Reserva::class, 'mesas');
+    }
+
+    public function isDisponible($fecha = null)
+    {
+        $fecha = $fecha ?? now()->toDateString();
+        return !$this->reservas()->whereDate('fecha', $fecha)->exists();
     }
 }

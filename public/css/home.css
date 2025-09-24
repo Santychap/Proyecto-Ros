@@ -1,0 +1,238 @@
+/* ========================================
+   PÁGINA DE INICIO - RESTAURANTE ELEGANTE
+   ======================================== */
+
+@import url('sistema-diseno.css');
+
+/* Configuración específica del home */
+body {
+    background: linear-gradient(120deg, #fff 60%, #181828 100%);
+    background-attachment: fixed;
+    color: var(--text-dark);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Header específico del home */
+.home-header {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 248, 220, 0.95) 100%);
+    padding: 25px 50px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    backdrop-filter: blur(15px);
+    box-shadow: var(--shadow-medium);
+    border-bottom: 2px solid rgba(255, 215, 0, 0.3);
+}
+
+.home-nav-link {
+    text-decoration: none;
+    color: #000000;
+    font-weight: bold;
+    font-size: 18px;
+    padding: 10px 20px;
+    border-radius: var(--border-radius-large);
+    background: var(--color-primary);
+}
+
+.home-nav-link:hover {
+    background: var(--color-primary-light);
+    color: #000000;
+}
+
+/* Sección de círculos principales */
+.circulos-principales {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    gap: 20px;
+    padding: 120px 20px;
+    flex-wrap: nowrap;
+    position: relative;
+    flex: 1;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.circulos-principales::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 800px;
+    height: 800px;
+    background: radial-gradient(circle, rgba(255, 215, 0, 0.1) 0%, transparent 70%);
+    border-radius: 50%;
+    z-index: 0;
+    animation: rotate 60s linear infinite;
+}
+
+@keyframes rotate {
+    0% { transform: translate(-50%, -50%) rotate(0deg); }
+    100% { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+/* Círculos individuales */
+.circulo {
+    position: relative;
+    border-radius: 50%;
+    overflow: hidden;
+    text-align: center;
+    font-weight: bold;
+    color: var(--text-light);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+    transition: all var(--transition-slow);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+    border: 4px solid rgba(255, 215, 0, 0.8);
+    z-index: 1;
+    cursor: pointer;
+}
+
+.circulo::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(255, 215, 0, 0.3) 0%, rgba(0, 0, 0, 0.5) 100%);
+    z-index: 1;
+    transition: opacity var(--transition-normal);
+}
+
+.circulo:hover::before {
+    opacity: 0.7;
+}
+
+.circulo:hover {
+    transform: scale(1.08) rotate(8deg);
+    box-shadow: 0 25px 50px rgba(255, 215, 0, 0.4), 0 0 30px rgba(255, 215, 0, 0.3);
+    border-color: var(--color-primary-light);
+}
+
+.circulo img {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 0;
+    transition: transform var(--transition-slow);
+    filter: brightness(0.8) contrast(1.1);
+}
+
+.circulo:hover img {
+    transform: scale(1.15);
+    filter: brightness(1) contrast(1.2);
+}
+
+.circulo span {
+    position: relative;
+    z-index: 2;
+    padding: 100px;
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.8);
+    font-family: var(--font-family);
+    text-transform: uppercase;
+    text-align: center;
+    font-weight: 900;
+    letter-spacing: 3px;
+    line-height: 1.2;
+}
+
+/* Tamaños de círculos */
+.circulo.small {
+    width: 300px;
+    height: 300px;
+    font-size: 18px;
+}
+
+.circulo.central {
+    width: 600px;
+    height: 600px;
+    font-size: 24px;
+    border-width: 6px;
+}
+
+/* Efectos adicionales */
+.circulo.small:nth-child(1) {
+    animation: float-left 8s ease-in-out infinite;
+}
+
+.circulo.small:nth-child(3) {
+    animation: float-right 8s ease-in-out infinite 2s;
+}
+
+@keyframes float-left {
+    0%, 100% { transform: translateY(0px) translateX(0px); }
+    50% { transform: translateY(-15px) translateX(-10px); }
+}
+
+@keyframes float-right {
+    0%, 100% { transform: translateY(0px) translateX(0px); }
+    50% { transform: translateY(-15px) translateX(10px); }
+}
+
+/* Responsive */
+@media (max-width: 1200px) {
+    .circulos-principales {
+        gap: 80px;
+        padding: 80px 30px;
+    }
+    
+    .circulo.small {
+        width: 250px;
+        height: 250px;
+        font-size: 16px;
+    }
+    
+    .circulo.central {
+        width: 500px;
+        height: 500px;
+        font-size: 20px;
+    }
+}
+
+@media (max-width: 1100px) {
+    .circulos-principales {
+        flex-direction: column;
+        gap: 40px;
+    }
+}
+
+@media (max-width: 768px) {
+    .home-header {
+        padding: 20px 30px;
+        flex-direction: column;
+        gap: var(--spacing-md);
+    }
+    
+    .circulos-principales {
+        flex-direction: column;
+        gap: 50px;
+        padding: 60px 20px;
+    }
+    
+    .circulo.small {
+        width: 200px;
+        height: 200px;
+        font-size: 14px;
+    }
+    
+    .circulo.central {
+        width: 350px;
+        height: 350px;
+        font-size: 18px;
+    }
+    
+    .circulo span {
+        padding: 60px 20px;
+        letter-spacing: 2px;
+    }
+}

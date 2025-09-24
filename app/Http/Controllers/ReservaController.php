@@ -24,7 +24,11 @@ class ReservaController extends Controller
                                ->paginate(10);
         }
 
-        return view('reservas.index', compact('reservas'));
+        if ($user->rol === 'cliente') {
+            return view('reservas.cliente', compact('reservas'));
+        } else {
+            return view('reservas.index', compact('reservas'));
+        }
     }
 
     // Mostrar formulario para nueva reserva
@@ -57,13 +61,13 @@ class ReservaController extends Controller
         }
 
         $validatedData = $request->validate([
-            'fecha'    => 'required|date|after_or_equal:today',
+            'fecha'    => 'required|date|after:today',
             'hora'     => 'required',
             'personas' => 'required|integer|min:1',
-            'mesa_id'  => 'nullable|exists:mesas,id', // Solo lo usará el admin
+            'mesas'    => 'nullable|exists:mesas,id',
             'motivo'   => 'nullable|in:Cumpleaños,Aniversario,Cena de negocios,Otro',
             'nota'     => 'nullable|string|max:1000',
-            'user_id'  => 'nullable|exists:users,id', // Solo para admin
+            'user_id'  => 'nullable|exists:users,id',
         ]);
 
         // Cliente asignado
@@ -71,27 +75,29 @@ class ReservaController extends Controller
             ? $request->input('user_id')
             : $user->id;
 
-        // Estado según el rol
-        $validatedData['estado'] = ($user->rol === 'admin') ? 'Pendiente' : 'Confirmada';
+        // Estado siempre confirmada
+        $validatedData['estado'] = 'Confirmada';
 
         // Empleado asignado automáticamente (mejorable)
         $empleadoDisponible = User::where('rol', 'empleado')->first();
         $validatedData['empleado_id'] = $empleadoDisponible ? $empleadoDisponible->id : null;
 
-        // Mesa
-        if ($user->rol === 'admin' && $request->filled('mesa_id')) {
-            // Admin elige mesa manualmente
-            $mesa = Mesa::find($request->input('mesa_id'));
+        // Verificar disponibilidad de mesa
+        if ($user->rol === 'admin' && $request->filled('mesas')) {
+            // Admin elige mesa manualmente - verificar disponibilidad
+            $mesa = Mesa::find($request->input('mesas'));
+            if (!$this->verificarDisponibilidadMesa($mesa->id, $validatedData['fecha'], $validatedData['hora'])) {
+                return back()->with('error', 'La mesa seleccionada no está disponible en esa fecha y hora.')->withInput();
+            }
+            $validatedData['mesas'] = $mesa->id;
         } else {
-            // Cliente: buscar mesa disponible automáticamente
+            // Buscar mesa disponible automáticamente
             $mesa = $this->buscarMesaDisponible($validatedData['fecha'], $validatedData['hora'], $validatedData['personas']);
+            if (!$mesa) {
+                return back()->with('error', 'No hay mesas disponibles para esa fecha y hora. Por favor, selecciona otra fecha u horario.')->withInput();
+            }
+            $validatedData['mesas'] = $mesa->id;
         }
-
-        if (!$mesa) {
-            return back()->with('error', 'No hay mesas disponibles para esa fecha y hora.')->withInput();
-        }
-
-        $validatedData['mesa_id'] = $mesa->id;
 
         // Crear reserva
         Reserva::create($validatedData);
@@ -117,16 +123,16 @@ class ReservaController extends Controller
             'fecha'    => 'required|date|after_or_equal:today',
             'hora'     => 'required',
             'personas' => 'required|integer|min:1',
-            'mesa_id'  => 'nullable|exists:mesas,id',
+            'mesas'    => 'nullable|exists:mesas,id',
             'motivo'   => 'nullable|in:Cumpleaños,Aniversario,Cena de negocios,Otro',
             'nota'     => 'nullable|string|max:1000',
         ]);
 
         // Si admin modifica la mesa
-        if ($request->filled('mesa_id')) {
-            $mesa = Mesa::find($request->input('mesa_id'));
+        if ($request->filled('mesas')) {
+            $mesa = Mesa::find($request->input('mesas'));
             if ($mesa) {
-                $validatedData['mesa_id'] = $mesa->id;
+                $validatedData['mesas'] = $mesa->id;
             }
         }
 
@@ -145,22 +151,102 @@ class ReservaController extends Controller
         return redirect()->route('reservas.index')->with('success', 'Reserva eliminada correctamente.');
     }
 
+    // Verificar disponibilidad de una mesa específica
+    private function verificarDisponibilidadMesa($mesaId, $fecha, $hora)
+    {
+        $duracion = 2;
+        $horaInicio = Carbon::parse($hora);
+        $horaFin = $horaInicio->copy()->addHours($duracion);
+
+        $reservaExistente = Reserva::where('mesas', $mesaId)
+            ->where('fecha', $fecha)
+            ->where('estado', '!=', 'Cancelada')
+            ->where(function ($q) use ($horaInicio, $horaFin) {
+                $q->whereBetween('hora', [$horaInicio->format('H:i:s'), $horaFin->format('H:i:s')])
+                  ->orWhereRaw('? BETWEEN hora AND ADDTIME(hora, "2:00:00")', [$horaInicio->format('H:i:s')])
+                  ->orWhereRaw('hora BETWEEN ? AND ?', [$horaInicio->format('H:i:s'), $horaFin->format('H:i:s')]);
+            })
+            ->exists();
+
+        return !$reservaExistente;
+    }
+
     // Buscar una mesa disponible automáticamente
     private function buscarMesaDisponible($fecha, $hora, $personas)
     {
-        $duracion = 2; // Duración estimada en horas
+        $duracion = 2;
         $horaInicio = Carbon::parse($hora);
         $horaFin = $horaInicio->copy()->addHours($duracion);
 
         return Mesa::where('capacidad', '>=', $personas)
             ->whereDoesntHave('reservas', function ($query) use ($fecha, $horaInicio, $horaFin) {
                 $query->where('fecha', $fecha)
+                    ->where('estado', '!=', 'Cancelada')
                     ->where(function ($q) use ($horaInicio, $horaFin) {
                         $q->whereBetween('hora', [$horaInicio->format('H:i:s'), $horaFin->format('H:i:s')])
-                          ->orWhereRaw('? BETWEEN hora AND ADDTIME(hora, "2:00:00")', [$horaInicio->format('H:i:s')]);
+                          ->orWhereRaw('? BETWEEN hora AND ADDTIME(hora, "2:00:00")', [$horaInicio->format('H:i:s')])
+                          ->orWhereRaw('hora BETWEEN ? AND ?', [$horaInicio->format('H:i:s'), $horaFin->format('H:i:s')]);
                     });
             })
-            ->orderBy('capacidad', 'asc') // opcional: usar la mesa más pequeña posible
+            ->orderBy('capacidad', 'asc')
             ->first();
+    }
+
+    // Método público para mostrar formulario de reservas
+    public function publicIndex()
+    {
+        return view('reservas.public');
+    }
+
+    // Método público para mostrar formulario de crear reservas
+    public function publicCreate()
+    {
+        return view('reservas.public');
+    }
+
+    // Método público para guardar reserva sin autenticación
+    public function publicStore(Request $request)
+    {
+        $validatedData = $request->validate([
+            'nombre'   => 'required|string|max:255',
+            'email'    => 'required|email|max:255',
+            'telefono' => 'required|string|max:20',
+            'fecha'    => 'required|date|after:today',
+            'hora'     => 'required',
+            'personas' => 'required|integer|min:1|max:12',
+            'motivo'   => 'nullable|string|max:255',
+            'nota'     => 'nullable|string|max:1000',
+        ]);
+
+        // Buscar mesa disponible
+        $mesa = $this->buscarMesaDisponible($validatedData['fecha'], $validatedData['hora'], $validatedData['personas']);
+
+        if (!$mesa) {
+            return back()->with('error', 'No hay mesas disponibles para esa fecha y hora. Por favor, selecciona otra fecha u hora.')->withInput();
+        }
+
+        // Buscar o crear usuario temporal
+        $user = User::firstOrCreate(
+            ['email' => $validatedData['email']],
+            [
+                'name' => $validatedData['nombre'],
+                'password' => bcrypt('temporal123'), // Contraseña temporal
+                'rol' => 'cliente'
+            ]
+        );
+
+        // Crear reserva
+        Reserva::create([
+            'user_id' => $user->id,
+            'mesas' => $mesa->id,
+            'fecha' => $validatedData['fecha'],
+            'hora' => $validatedData['hora'],
+            'personas' => $validatedData['personas'],
+            'motivo' => $validatedData['motivo'],
+            'nota' => $validatedData['nota'],
+            'estado' => 'Confirmada',
+        ]);
+
+        return back()->with('success', '¡Reserva creada exitosamente! Te contactaremos pronto para confirmar los detalles.');
     }
 }

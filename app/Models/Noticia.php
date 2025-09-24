@@ -16,6 +16,10 @@ class Noticia extends Model
         'fecha_publicacion',
     ];
 
+    protected $casts = [
+        'fecha_publicacion' => 'datetime',
+    ];
+
     // Si usas nombre de tabla en español
     protected $table = 'noticias';
 }

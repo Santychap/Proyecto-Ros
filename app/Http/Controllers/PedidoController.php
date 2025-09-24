@@ -14,18 +14,27 @@ class PedidoController extends Controller
     public function store(Request $request)
     {
         $user = auth()->user();
+        $carrito = session('carrito', []);
 
-        // Asignación automática de empleado (puedes mejorar con lógica de carga)
-        $empleadoDisponible = User::where('rol', 'empleado')->first();
+        if (empty($carrito)) {
+            return redirect()->route('carrito.mostrar')->with('error', 'Tu carrito está vacío');
+        }
+
+        // Asignación automática de empleado disponible (máximo 2 pedidos por empleado)
+        $empleadoDisponible = User::where('rol', 'empleado')
+            ->withCount(['pedidos as pedidos_activos_count' => function($query) {
+                $query->whereIn('estado', ['Pendiente', 'En Proceso']);
+            }])
+            ->having('pedidos_activos_count', '<', 2)
+            ->orderBy('pedidos_activos_count')
+            ->first();
 
         $pedido = Pedido::create([
             'user_id'      => $user->id,
-            'estado'       => 'Pendiente', // Pedido comienza como pendiente
+            'estado'       => 'Pendiente',
             'comentario'   => $request->comentario,
             'empleado_id'  => $empleadoDisponible ? $empleadoDisponible->id : null,
         ]);
-
-        $carrito = session('carrito', []);
 
         foreach ($carrito as $productoId => $item) {
             $pedido->detalles()->create([
@@ -36,7 +45,6 @@ class PedidoController extends Controller
 
         session()->forget('carrito');
 
-        // Redirigimos a confirmacion pasandole el id del pedido
         return redirect()->route('pedidos.confirmacion', ['pedido' => $pedido->id]);
     }
 
@@ -72,11 +80,16 @@ class PedidoController extends Controller
         return view('pedidos.confirmacion', compact('pedido', 'puedeCancelar', 'total'));
     }
 
-    // Ver pedidos según el rol y búsqueda para admin y clientes
+    // Ver pedidos según el rol y búsqueda para admin y clientes, con filtro por estado
     public function index(Request $request)
     {
         $user = auth()->user();
         $query = Pedido::query()->with('detalles.producto', 'user', 'empleado');
+
+        // Aplicar filtro de estado si viene en la request
+        if ($request->filled('estado')) {
+            $query->where('estado', $request->input('estado'));
+        }
 
         if ($user->rol === 'admin') {
             // Búsqueda por cliente, estado o fecha
@@ -95,18 +108,31 @@ class PedidoController extends Controller
             $pedidos = $query->latest()->get();
 
         } elseif ($user->rol === 'empleado') {
+            // Los empleados ven solo pedidos de hoy asignados a ellos
             $pedidos = $query->whereDate('created_at', now()->toDateString())
-                ->where('empleado_id', $user->id)
-                ->get();
+                  ->where('empleado_id', $user->id)
+                  ->with(['detalles.producto', 'empleado'])
+                  ->get();
+                  
+            // Debug: Forzar recarga de relaciones
+            foreach($pedidos as $pedido) {
+                $pedido->load(['detalles.producto', 'empleado']);
+            }
 
         } else {
-            // Cliente ve solo sus pedidos, sin botones de acción, solo historial
-            $pedidos = $query->where('user_id', $user->id)
-                ->latest()
-                ->get();
+            // Clientes ven solo sus pedidos
+            $query->where('user_id', $user->id);
+
+            $pedidos = $query->latest()->get();
         }
 
-        return view('pedidos.index', compact('pedidos'));
+        if ($user->rol === 'empleado') {
+            return view('pedidos.empleado', compact('pedidos'));
+        } elseif ($user->rol === 'cliente') {
+            return view('pedidos.cliente', compact('pedidos'));
+        } else {
+            return view('pedidos.index', compact('pedidos'));
+        }
     }
 
     // HISTORIAL (solo para admin)
@@ -152,7 +178,7 @@ class PedidoController extends Controller
         return redirect()->route('pedidos.index')->with('success', 'Pedido cancelado correctamente.');
     }
 
-    // ADMIN y EMPLEADO: Actualizar estado (solo Pendiente a Pagado)
+    // ADMIN y EMPLEADO: Actualizar estado del pedido
     public function actualizarEstado(Request $request, Pedido $pedido)
     {
         $user = auth()->user();
@@ -162,28 +188,42 @@ class PedidoController extends Controller
         }
 
         $request->validate([
-            'estado' => 'required|in:Pendiente,Pagado',
+            'estado' => 'required|in:Pendiente,Pagado,Cancelado',
         ]);
 
-        // Solo puede cambiar si el estado actual es Pendiente y se quiere poner en Pagado
-        if ($pedido->estado !== 'Pendiente' || $request->estado !== 'Pagado') {
-            return back()->with('error', 'No es posible cambiar el estado del pedido.');
+        // Si el estado cambia a Pagado, crear o actualizar el pago
+        if ($request->estado === 'Pagado') {
+            if ($pedido->pago) {
+                // Si ya existe un pago, actualizar su estado
+                $pedido->pago->update(['estado' => 'pagado']);
+            } else {
+                // Si no existe pago, crear uno nuevo
+                $pago = \App\Models\Pago::create([
+                    'pedido_id' => $pedido->id,
+                    'user_id' => $pedido->user_id,
+                    'monto' => $pedido->total,
+                    'metodo' => 'efectivo',
+                    'estado' => 'pagado',
+                    'fecha_pago' => now()
+                ]);
+                
+                // Crear detalle del pago con información del registrador
+                $datosPago = $user->rol === 'admin' 
+                    ? 'Pago registrado manualmente por admin'
+                    : 'Pago registrado por empleado: ' . $user->name;
+                    
+                \App\Models\DetallePago::create([
+                    'pago_id' => $pago->id,
+                    'descripcion' => 'Pago confirmado por ' . $user->rol,
+                    'monto' => $pedido->total,
+                    'datos_pago' => $datosPago
+                ]);
+            }
         }
 
-        // Actualizar el estado a Pagado
-        $pedido->update(['estado' => 'Pagado']);
+        $pedido->update(['estado' => $request->estado]);
 
-        // Crear registro en pagos
-        Pago::create([
-            'pedido_id' => $pedido->id,
-            'user_id' => $user->id,  // Usuario que hace el cambio (admin o empleado)
-            'monto' => $pedido->total ?? 0, // Asegúrate que el modelo Pedido tiene la propiedad total o calcula
-            'metodo' => 'efectivo', // Método genérico para este caso
-            'datos_pago' => 'Pago registrado manualmente por ' . $user->rol,
-            'fecha_pago' => now(),
-        ]);
-
-        return back()->with('success', 'Estado del pedido actualizado a Pagado y pago registrado correctamente.');
+        return back()->with('success', 'Estado del pedido actualizado correctamente.');
     }
 
     // Admin cancela pedido (solo admin, estados Pendiente o Pagado)
@@ -203,4 +243,64 @@ class PedidoController extends Controller
 
         return back()->with('success', 'Pedido cancelado por el administrador.');
     }
+
+    // Eliminar pedido (solo admin)
+    public function destroy(Pedido $pedido)
+    {
+        $user = auth()->user();
+
+        if ($user->rol !== 'admin') {
+            abort(403);
+        }
+
+        // Eliminar detalles del pedido primero
+        $pedido->detalles()->delete();
+        
+        // Eliminar pagos relacionados si existen
+        $pedido->pagos()->delete();
+        
+        // Eliminar el pedido
+        $pedido->delete();
+
+        return back()->with('success', 'Pedido eliminado correctamente.');
+    }
+
+    // Vaciar todos los pedidos (solo admin)
+    public function vaciarTodos()
+    {
+        $user = auth()->user();
+
+        if ($user->rol !== 'admin') {
+            abort(403);
+        }
+
+        try {
+            // Eliminar en el orden correcto para respetar las claves foráneas
+            DetallePedido::query()->delete();
+            Pago::query()->delete();
+            Pedido::query()->delete();
+
+            return back()->with('success', 'Todos los pedidos han sido eliminados correctamente.');
+        } catch (\Exception $e) {
+            return back()->with('error', 'Error al eliminar los pedidos: ' . $e->getMessage());
+        }
+    }
+    public function pendientes()
+    {
+        $user = auth()->user();
+        
+        if (!in_array($user->rol, ['admin', 'empleado'])) {
+            abort(403);
+        }
+
+        $pedidosPendientes = Pedido::with(['user', 'detalles.producto', 'pago'])
+            ->whereHas('pago', function($query) {
+                $query->where('estado', 'pendiente');
+            })
+            ->orWhereDoesntHave('pago')
+            ->get();
+
+        return view('pedidos.pendientes', compact('pedidosPendientes'));
+    }
 }
+

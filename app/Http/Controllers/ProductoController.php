@@ -29,7 +29,7 @@ class ProductoController extends Controller
             'stock' => 'required|integer|min:0',
             'descripcion' => 'nullable|string',
             'ingredientes' => 'nullable|string',
-            'category_id' => 'required|exists:categories,id', // Aquí debe ir 'categories' (nombre tabla)
+            'category_id' => 'required|exists:categorias,id',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
         ]);
 
@@ -59,7 +59,7 @@ class ProductoController extends Controller
             'stock' => 'required|integer|min:0',
             'descripcion' => 'nullable|string',
             'ingredientes' => 'nullable|string',
-            'category_id' => 'required|exists:categories,id', // Aquí también
+            'category_id' => 'required|exists:categorias,id',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
         ]);
 

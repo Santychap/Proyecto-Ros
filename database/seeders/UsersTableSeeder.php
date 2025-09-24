@@ -19,7 +19,7 @@ class UsersTableSeeder extends Seeder
         // Admin
         User::where('email', 'admin@restaurante.com')->delete();
         $admin = User::create([
-            'name' => 'Admin Restaurante',
+            'name' => 'Admin Santiago',
             'email' => 'admin@restaurante.com',
             'password' => Hash::make('password1234'),
         ]);

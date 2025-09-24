@@ -10,14 +10,16 @@ class PromocionController extends Controller
     // Mostrar la lista paginada de promociones para la vista pública
     public function publicIndex()
     {
-        $promociones = Promocion::latest()->paginate(10);
-        return view('promociones.index', compact('promociones'));
+        // Temporalmente comentado hasta crear la tabla
+        $promociones = collect(); // Promocion::latest()->get();
+        return view('web.promociones', compact('promociones'));
     }
 
     // Métodos para administración (CRUD)
     public function index()
     {
-        $promociones = Promocion::latest()->paginate(10);
+        // Temporalmente comentado hasta crear la tabla
+        $promociones = collect(); // Promocion::latest()->paginate(10);
         return view('promociones.index', compact('promociones'));
     }
 
@@ -29,15 +31,21 @@ class PromocionController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'titulo' => 'required|string|max:255', // Cambiado de 'nombre' a 'titulo'
+            'titulo' => 'required|string|max:255',
             'descripcion' => 'nullable|string',
             'descuento' => 'required|numeric|min:0',
             'fecha_inicio' => 'required|date',
             'fecha_fin' => 'nullable|date|after_or_equal:fecha_inicio',
-            'imagen' => 'nullable|image|max:2048', // valida que sea imagen y tamaño máximo 2MB
+            'imagen' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
-        Promocion::create($request->all());
+        $data = $request->all();
+        
+        if ($request->hasFile('imagen')) {
+            $data['imagen'] = $request->file('imagen')->store('promociones', 'public');
+        }
+
+        Promocion::create($data);
 
         return redirect()->route('promociones.index')
             ->with('success', 'Promoción creada correctamente.');
@@ -51,14 +59,25 @@ class PromocionController extends Controller
     public function update(Request $request, Promocion $promocion)
     {
         $request->validate([
-            'titulo' => 'required|string|max:255', // Cambiado de 'nombre' a 'titulo'
+            'titulo' => 'required|string|max:255',
             'descripcion' => 'nullable|string',
             'descuento' => 'required|numeric|min:0',
             'fecha_inicio' => 'required|date',
             'fecha_fin' => 'nullable|date|after_or_equal:fecha_inicio',
+            'imagen' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
-        $promocion->update($request->all());
+        $data = $request->all();
+        
+        if ($request->hasFile('imagen')) {
+            // Eliminar imagen anterior si existe
+            if ($promocion->imagen) {
+                \Storage::disk('public')->delete($promocion->imagen);
+            }
+            $data['imagen'] = $request->file('imagen')->store('promociones', 'public');
+        }
+
+        $promocion->update($data);
 
         return redirect()->route('promociones.index')
             ->with('success', 'Promoción actualizada correctamente.');

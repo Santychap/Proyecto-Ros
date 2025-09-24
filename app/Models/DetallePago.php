@@ -10,13 +10,20 @@ class DetallePago extends Model
 
     protected $fillable = [
         'pago_id',
-        'descripcion', // o el campo que uses para detalle
-        'monto',       // ejemplo de campo adicional
-        // otros campos que tenga detalle_pago
+        'descripcion',
+        'monto',
+        'datos_pago'
+    ];
+
+    protected $casts = [
+        'datos_pago' => 'array',
+        'monto' => 'decimal:2'
     ];
 
     public function pago()
     {
         return $this->belongsTo(Pago::class);
     }
+
+
 }

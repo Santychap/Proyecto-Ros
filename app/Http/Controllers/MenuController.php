@@ -8,7 +8,9 @@ class MenuController extends Controller
 {
     public function index()
     {
-        $productos = Producto::all();
-        return view('menu.index', compact('productos'));
+        // Temporalmente comentado hasta crear las tablas
+        $productos = collect(); // Producto::with('categoria')->get();
+        $categorias = collect(); // \App\Models\Categoria::all();
+        return view('menu.index', compact('productos', 'categorias'));
     }
 }

@@ -6,6 +6,10 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
 {
+    // Roles disponibles
+    const ROL_ADMIN = 'admin';
+    const ROL_EMPLEADO = 'empleado';
+    const ROL_CLIENTE = 'cliente';
     protected $fillable = [
         'name',
         'email',
@@ -24,4 +28,15 @@ class User extends Authenticatable
 {
     return $this->hasMany(Horario::class);
 }
+
+    public function pedidos()
+{
+    return $this->hasMany(\App\Models\Pedido::class, 'empleado_id');
+}
+
+    public function isEmpleado()
+    {
+        return $this->hasRole(self::ROL_EMPLEADO);
+    }
+
 }

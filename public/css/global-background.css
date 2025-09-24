@@ -1,0 +1,67 @@
+/* FONDO GLOBAL FORZADO PARA TODO EL SISTEMA */
+
+/* Forzar el gradiente en TODOS los elementos body */
+body,
+html,
+.admin-layout,
+.bg-dark-gradient,
+.bg-glass,
+.dashboard-main,
+.admin-main-content,
+.main-content,
+.content-wrapper,
+.container,
+.reservas-container,
+.usuarios-container,
+.productos-container,
+.pedidos-container,
+.pagos-container,
+.noticias-container,
+.mesas-container,
+.inventario-container,
+.categorias-container,
+.promociones-container,
+.reportes-container {
+    background: linear-gradient(120deg, #fff 60%, #181828 100%) !important;
+    background-attachment: fixed !important;
+}
+
+/* Forzar en elementos específicos que puedan tener fondos oscuros */
+.card,
+.kpi-card,
+.chart-container,
+.data-table,
+.empty-state,
+.filters-container,
+.usuario-card,
+.reserva-card,
+.producto-card,
+.pedido-card,
+.pago-card,
+.noticia-card,
+.mesa-card,
+.inventario-card,
+.categoria-card,
+.promocion-card {
+    background: rgba(15, 15, 35, 0.95) !important;
+    backdrop-filter: blur(15px) !important;
+    border: 2px solid rgba(255, 215, 0, 0.3) !important;
+}
+
+/* Asegurar que los contenedores principales tengan el gradiente */
+.dashboard-section,
+.section,
+.page-content,
+.view-content {
+    background: transparent !important;
+}
+
+/* Forzar en layouts específicos */
+.auth-container,
+.login-container,
+.register-container,
+.carrito-container,
+.menu-container {
+    background: linear-gradient(120deg, #fff 60%, #181828 100%) !important;
+    background-attachment: fixed !important;
+}

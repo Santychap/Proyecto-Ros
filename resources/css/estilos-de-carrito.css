@@ -9,7 +9,8 @@
 }
 
 body {
-    background: var(--background-color);
+    background: linear-gradient(120deg, #fff 60%, #181828 100%);
+    background-attachment: fixed;
     color: var(--text-color);
     font-family: 'Open Sans', Arial, sans-serif;
     margin: 0;
