@@ -12,7 +12,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        // Registrar el servicio del restaurante
+        $this->app->singleton(\App\Services\RestauranteService::class);
     }
 
     /**
@@ -27,5 +28,10 @@ class AppServiceProvider extends ServiceProvider
                 'email' => $user->getEmailForPasswordReset(),
             ], false));
         });
+
+        // Configurar zona horaria desde config
+        if (config('app.timezone')) {
+            date_default_timezone_set(config('app.timezone'));
+        }
     }
 }

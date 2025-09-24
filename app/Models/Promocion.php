@@ -27,4 +27,20 @@ class Promocion extends Model
         'fecha_inicio' => 'datetime',
         'fecha_fin' => 'datetime',
     ];
+
+    public function isVigente()
+    {
+        $hoy = now();
+        return $hoy >= $this->fecha_inicio && $hoy <= $this->fecha_fin;
+    }
+
+    public function calcularDescuento($precio)
+    {
+        return $precio * ($this->descuento / 100);
+    }
+
+    public function getDiasRestantesAttribute()
+    {
+        return $this->fecha_fin->diffInDays(now());
+    }
 }

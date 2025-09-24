@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * Archivo de rutas web del sistema de restaurante
+ * Organizado por secciones: públicas, autenticadas, admin
+ */
+
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ReservaController;
 use App\Http\Controllers\DashboardController;
@@ -16,7 +21,13 @@ use App\Http\Controllers\NoticiaController;
 use App\Http\Controllers\PromocionController;
 use App\Http\Controllers\InventarioController;
 
-// Ruta pública para la página principal (welcome)
+/*
+|--------------------------------------------------------------------------
+| RUTAS PÚBLICAS
+|--------------------------------------------------------------------------
+*/
+
+// Página principal
 Route::view('/', 'welcome');
 
 // Ruta pública para el menú
@@ -30,7 +41,12 @@ Route::get('/promociones-web', [PromocionController::class, 'publicIndex'])->nam
 Route::get('/reservas-web', [ReservaController::class, 'publicCreate'])->name('reservas.publicCreate');
 Route::post('/reservas-web', [ReservaController::class, 'publicStore'])->name('reservas.publicStore');
 
-// Rutas protegidas (requieren login y verificación)
+/*
+|--------------------------------------------------------------------------
+| RUTAS AUTENTICADAS
+|--------------------------------------------------------------------------
+*/
+
 use App\Http\Controllers\ReporteController;
 Route::middleware(['auth', 'verified'])->group(function () {
 
@@ -91,7 +107,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('inventario/{inventario}/ajustar-stock', [InventarioController::class, 'ajustarStock'])->name('inventario.ajustar-stock');
 });
 
-// Rutas para el carrito (públicas o protegidas según lógica de negocio)
+/*
+|--------------------------------------------------------------------------
+| RUTAS DEL CARRITO
+|--------------------------------------------------------------------------
+*/
 Route::post('/carrito/agregar', [CarritoController::class, 'agregar'])->name('carrito.agregar');
 Route::get('/carrito', [CarritoController::class, 'mostrar'])->name('carrito.mostrar');
 Route::post('/carrito/actualizar', [CarritoController::class, 'actualizar'])->name('carrito.actualizar');

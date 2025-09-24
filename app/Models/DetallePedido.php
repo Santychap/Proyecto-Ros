@@ -38,4 +38,14 @@ class DetallePedido extends Model
     {
         return $this->producto ? $this->cantidad * $this->producto->precio : 0;
     }
+
+    public function aplicarDescuento($porcentaje)
+    {
+        return $this->subtotal * (1 - $porcentaje / 100);
+    }
+
+    public function validarCantidad()
+    {
+        return $this->cantidad > 0 && $this->cantidad <= ($this->producto->stock ?? 0);
+    }
 }
