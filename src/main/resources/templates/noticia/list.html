@@ -65,6 +65,12 @@
                 </form>
             </td>
         </tr>
+        <tr th:if="${#lists.isEmpty(noticias)}">
+            <td colspan="6" class="text-center text-muted py-4">
+                <i class="fas fa-inbox" style="font-size: 2rem;"></i><br>
+                No hay noticias disponibles. <a th:href="@{/noticias/new}">Crear una nueva</a>
+            </td>
+        </tr>
         </tbody>
     </table>
   </div>

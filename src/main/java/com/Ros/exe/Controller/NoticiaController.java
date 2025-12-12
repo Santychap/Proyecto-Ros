@@ -20,22 +20,28 @@ public class NoticiaController {
     public String listar(@RequestParam(required = false) Long id,
                          @RequestParam(required = false) String titulo,
                          Model model) {
-        List<NoticiaDto> noticias = noticiaService.listarNoticias();
+        try {
+            List<NoticiaDto> noticias = noticiaService.listarNoticias();
 
-        if (id != null) {
-            noticias = noticias.stream()
-                    .filter(n -> n.getId().equals(id))
-                    .collect(java.util.stream.Collectors.toList());
+            if (id != null) {
+                noticias = noticias.stream()
+                        .filter(n -> n.getId().equals(id))
+                        .collect(java.util.stream.Collectors.toList());
+            }
+
+            if (titulo != null && !titulo.isEmpty()) {
+                noticias = noticias.stream()
+                        .filter(n -> n.getTitulo().toLowerCase().contains(titulo.toLowerCase()))
+                        .collect(java.util.stream.Collectors.toList());
+            }
+
+            model.addAttribute("noticias", noticias);
+            return "noticia/list";
+        } catch (Exception e) {
+            model.addAttribute("error", "Error al cargar las noticias: " + e.getMessage());
+            model.addAttribute("noticias", java.util.Collections.emptyList());
+            return "noticia/list";
         }
-
-        if (titulo != null && !titulo.isEmpty()) {
-            noticias = noticias.stream()
-                    .filter(n -> n.getTitulo().toLowerCase().contains(titulo.toLowerCase()))
-                    .collect(java.util.stream.Collectors.toList());
-        }
-
-        model.addAttribute("noticias", noticias);
-        return "noticia/list";
     }
 
     @GetMapping("/noticias/new")
@@ -46,20 +52,30 @@ public class NoticiaController {
 
     @GetMapping("/noticias/edit/{id}")
     public String editar(@PathVariable Long id, Model model) {
-        NoticiaDto noticia = noticiaService.listarNoticias().stream()
-                .filter(n -> n.getId().equals(id))
-                .findFirst()
-                .orElse(null);
-        if (noticia == null) {
+        try {
+            NoticiaDto noticia = noticiaService.listarNoticias().stream()
+                    .filter(n -> n.getId().equals(id))
+                    .findFirst()
+                    .orElse(null);
+            if (noticia == null) {
+                return "redirect:/noticias";
+            }
+            model.addAttribute("noticia", noticia);
+            return "noticia/form";
+        } catch (Exception e) {
             return "redirect:/noticias";
         }
-        model.addAttribute("noticia", noticia);
-        return "noticia/form";
     }
 
     @PostMapping("/noticias/save")
     public String guardar(@ModelAttribute NoticiaDto noticia, RedirectAttributes redirect) {
         try {
+            // Validar que el título no esté vacío
+            if (noticia.getTitulo() == null || noticia.getTitulo().trim().isEmpty()) {
+                redirect.addFlashAttribute("error", "El título de la noticia es requerido");
+                return "redirect:/noticias";
+            }
+            
             // Validar URL de imagen si se proporciona
             if (noticia.getImagen() != null && !noticia.getImagen().trim().isEmpty()) {
                 String imagen = noticia.getImagen().trim();
@@ -84,8 +100,16 @@ public class NoticiaController {
 
     @PostMapping("/noticias/delete/{id}")
     public String eliminar(@PathVariable Long id, RedirectAttributes redirect) {
-        noticiaService.eliminarNoticia(id);
-        redirect.addFlashAttribute("success", "Noticia eliminada exitosamente");
+        try {
+            boolean eliminado = noticiaService.eliminarNoticia(id);
+            if (eliminado) {
+                redirect.addFlashAttribute("success", "Noticia eliminada exitosamente");
+            } else {
+                redirect.addFlashAttribute("error", "No se encontró la noticia a eliminar");
+            }
+        } catch (Exception e) {
+            redirect.addFlashAttribute("error", "Error al eliminar noticia: " + e.getMessage());
+        }
         return "redirect:/noticias";
     }
 
