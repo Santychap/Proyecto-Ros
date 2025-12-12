@@ -1,0 +1,425 @@
+/* --- PREMIUM RESTAURADO: Botones de categorías centrados, fondo amarillo, grandes y redondeados --- */
+.category-filters {
+    display: flex !important;
+    flex-direction: row !important;
+    justify-content: center !important;
+    align-items: center !important;
+    gap: 1.5rem !important;
+    margin: 2.5rem 0 2.5rem 0 !important;
+}
+.category-btn {
+    background: linear-gradient(135deg, #ffe066 0%, #fffbe6 100%) !important;
+    color: #222 !important;
+    border: none !important;
+    border-radius: 2rem !important;
+    font-size: 1.15rem !important;
+    font-weight: bold !important;
+    padding: 0.85rem 2.2rem !important;
+    box-shadow: 0 4px 18px rgba(255, 215, 0, 0.13) !important;
+    transition: all 0.18s cubic-bezier(.4,2,.6,1) !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 0.7rem !important;
+    cursor: pointer !important;
+    outline: none !important;
+    position: relative !important;
+}
+.category-btn.active, .category-btn:hover {
+    background: linear-gradient(135deg, #ffe066 0%, #fffbe6 100%) !important;
+    color: #111 !important;
+    box-shadow: 0 6px 24px rgba(255, 215, 0, 0.22) !important;
+    border: 2px solid #ffe066 !important;
+    transform: translateY(-3px) scale(1.07) !important;
+}
+/* --- PREMIUM RESTAURADO: Footer horizontal, precio y botón grandes y centrados --- */
+/* ========================================
+   PÁGINA DE MENÚ - RESTAURANTE ELEGANTE
+   ======================================== */
+
+@import url('sistema-diseno.css');
+
+.producto-footer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-md);
+    margin-top: var(--spacing-md);
+    padding-top: var(--spacing-md);
+    border-top: 1px solid rgba(255, 215, 0, 0.2);
+}
+                radial-gradient(circle at 40% 40%, rgba(255, 248, 220, 0.08) 0%, transparent 50%);
+.producto-price {
+    color: var(--color-primary);
+    font-size: var(--font-size-xl);
+    font-weight: bold;
+    background: linear-gradient(135deg, rgba(255, 215, 0, 0.15) 0%, rgba(255, 237, 78, 0.15) 100%);
+    padding: 12px 24px;
+    border-radius: var(--border-radius-large);
+    border: 2px solid var(--color-primary);
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 0;
+    width: 100%;
+    text-align: center;
+}
+    justify-content: center;
+.comprar-btn {
+    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-light) 100%);
+    color: var(--text-dark);
+    border: none;
+    padding: 16px 32px;
+    border-radius: var(--border-radius-xl);
+    font-weight: bold;
+    cursor: pointer;
+    transition: all var(--transition-normal);
+    text-transform: uppercase;
+    font-size: var(--font-size-base);
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+    width: 100%;
+    justify-content: center;
+    margin-top: 0;
+    box-shadow: var(--shadow-small);
+    position: relative;
+    overflow: hidden;
+    letter-spacing: 1px;
+}
+    position: relative;
+    overflow: hidden;
+}
+
+.category-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+    transition: left 0.5s;
+}
+
+.category-btn:hover::before {
+    left: 100%;
+}
+
+.category-btn:hover,
+.category-btn.active {
+    background: linear-gradient(135deg, var(--color-primary-light) 0%, #fff 100%);
+    transform: translateY(-4px) scale(1.05);
+    box-shadow: var(--shadow-large);
+    border: 2px solid var(--color-primary);
+}
+
+/* Grid de productos mejorado */
+.productos-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+    gap: var(--spacing-xl);
+    margin-bottom: var(--spacing-xl);
+}
+
+/* Tarjetas de productos premium */
+.producto-card {
+    background: linear-gradient(145deg, rgba(15, 15, 35, 0.98) 0%, rgba(26, 26, 46, 0.98) 100%);
+    border: 2px solid var(--color-primary);
+    border-radius: var(--border-radius-medium);
+    overflow: hidden;
+    transition: all var(--transition-slow);
+    backdrop-filter: blur(20px);
+    box-shadow: var(--shadow-dark);
+    position: relative;
+    cursor: pointer;
+}
+
+.producto-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(145deg, rgba(255, 215, 0, 0.08) 0%, transparent 50%);
+    opacity: 0;
+    transition: opacity var(--transition-normal);
+    pointer-events: none;
+    z-index: 1;
+}
+
+.producto-card:hover::before {
+    opacity: 1;
+}
+
+.producto-card:hover {
+    transform: translateY(-12px) scale(1.03);
+    box-shadow: var(--shadow-large), 0 0 30px rgba(255, 215, 0, 0.25);
+    border-color: var(--color-primary-light);
+}
+
+/* Imagen del producto con efectos */
+.producto-image {
+    width: 100%;
+    height: 280px;
+    overflow: hidden;
+    position: relative;
+    border-radius: var(--border-radius-medium) var(--border-radius-medium) 0 0;
+}
+
+.producto-image::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 80px;
+    background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
+    z-index: 2;
+}
+
+.producto-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform var(--transition-slow);
+    filter: brightness(0.9) contrast(1.1);
+}
+
+.producto-card:hover .producto-image img {
+    transform: scale(1.15);
+    filter: brightness(1.1) contrast(1.2);
+}
+
+/* Badge de categoría */
+.categoria-badge {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-light) 100%);
+    color: var(--text-dark);
+    padding: 6px 12px;
+    border-radius: var(--border-radius-medium);
+    font-size: var(--font-size-xs);
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    z-index: 3;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* Contenido del producto */
+.producto-content {
+    padding: var(--spacing-lg);
+    position: relative;
+    z-index: 2;
+}
+
+.producto-name {
+    color: var(--color-primary);
+    font-size: var(--font-size-xl);
+    font-weight: bold;
+    margin-bottom: var(--spacing-sm);
+    text-align: center;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+    position: relative;
+    font-family: var(--font-family-display);
+}
+
+.producto-name::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 2px;
+    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-light) 100%);
+    border-radius: 1px;
+}
+
+.producto-description {
+    color: var(--text-muted);
+    font-size: var(--font-size-base);
+    margin-bottom: var(--spacing-md);
+    text-align: center;
+    line-height: 1.6;
+    opacity: 0.95;
+}
+
+.producto-ingredientes {
+    color: var(--text-gray);
+    font-size: var(--font-size-sm);
+    font-style: italic;
+    margin-bottom: var(--spacing-md);
+    text-align: center;
+    opacity: 0.8;
+}
+
+/* Footer del producto */
+.producto-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: var(--spacing-md);
+    padding-top: var(--spacing-md);
+    border-top: 1px solid rgba(255, 215, 0, 0.2);
+}
+
+.producto-price {
+    color: var(--color-primary);
+    font-size: var(--font-size-xl);
+    font-weight: bold;
+    background: linear-gradient(135deg, rgba(255, 215, 0, 0.15) 0%, rgba(255, 237, 78, 0.15) 100%);
+    padding: 12px 24px;
+    border-radius: var(--border-radius-large);
+    border: 2px solid var(--color-primary);
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+    position: relative;
+    overflow: hidden;
+}
+
+.producto-price::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.6s;
+}
+
+.producto-price:hover::before {
+    left: 100%;
+}
+
+/* Botón de compra premium */
+.comprar-btn {
+    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-light) 100%);
+    color: var(--text-dark);
+    border: none;
+    padding: 16px 32px;
+    border-radius: var(--border-radius-xl);
+    font-weight: bold;
+    cursor: pointer;
+    transition: all var(--transition-normal);
+    text-transform: uppercase;
+    font-size: var(--font-size-base);
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+    width: 100%;
+    justify-content: center;
+    margin-top: var(--spacing-md);
+    box-shadow: var(--shadow-small);
+    position: relative;
+    overflow: hidden;
+    letter-spacing: 1px;
+}
+
+.comprar-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+    transition: left 0.5s;
+}
+
+.comprar-btn:hover::before {
+    left: 100%;
+}
+
+.comprar-btn:hover {
+    background: linear-gradient(135deg, var(--color-primary-light) 0%, #fff 100%);
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-medium);
+    border: 2px solid var(--color-primary);
+}
+
+.comprar-btn i {
+    font-size: var(--font-size-lg);
+    transition: transform var(--transition-normal);
+}
+
+.comprar-btn:hover i {
+    transform: scale(1.3) rotate(15deg);
+}
+
+/* Estados de disponibilidad */
+.producto-card.agotado {
+    opacity: 0.7;
+    filter: grayscale(0.5);
+}
+
+.producto-card.agotado::after {
+    content: 'AGOTADO';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(-15deg);
+    background: var(--color-error);
+    color: white;
+    padding: 10px 30px;
+    font-weight: bold;
+    font-size: var(--font-size-lg);
+    border-radius: var(--border-radius-medium);
+    z-index: 10;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
+}
+
+/* Animaciones de carga */
+.producto-card.loading {
+    animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.7; }
+}
+
+/* Responsive mejorado */
+@media (max-width: 1200px) {
+    .productos-grid {
+        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+        gap: var(--spacing-lg);
+    }
+}
+
+@media (max-width: 768px) {
+    .menu-container {
+        padding: var(--spacing-md);
+    }
+    
+    .productos-grid {
+        grid-template-columns: 1fr;
+        gap: var(--spacing-md);
+    }
+    
+    .category-filters {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .category-btn {
+        width: 100%;
+        max-width: 300px;
+    }
+    
+    .producto-image {
+        height: 220px;
+    }
+    
+    .producto-footer {
+        flex-direction: column;
+        gap: var(--spacing-sm);
+    }
+    
+    .producto-price {
+        width: 100%;
+        text-align: center;
+    }
+}

@@ -1,0 +1,326 @@
+/* CONTRAST AND BORDER FIXES - GLOBAL */
+
+/* Fix text colors that match backgrounds */
+.producto-descripcion,
+.info-row span:not(.info-label),
+.reserva-info span:not(.info-label),
+.empty-description,
+.stat-label {
+    color: #ffffff !important;
+    font-weight: 500 !important;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.5) !important;
+}
+
+/* Fix muted text colors */
+.text-muted,
+.producto-descripcion,
+.empty-description {
+    color: #ffffff !important;
+    font-weight: 500 !important;
+}
+
+/* Fix info labels */
+.info-label,
+.info-row .info-label {
+    color: #ffffff !important;
+    font-weight: 600 !important;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.5) !important;
+}
+
+/* Fix card borders */
+.producto-card,
+.reserva-card,
+.inventario-card,
+.kpi-card,
+.card,
+.chart-container {
+    border: 2px solid #ffd700 !important;
+    box-shadow: 0 4px 15px rgba(255, 215, 0, 0.2) !important;
+}
+
+/* Fix table text */
+.data-table td,
+.table td {
+    color: #ffffff !important;
+    font-weight: 500 !important;
+}
+
+.data-table th,
+.table th {
+    color: #ffd700 !important;
+    font-weight: 700 !important;
+    background: rgba(255, 215, 0, 0.15) !important;
+}
+
+/* Fix form controls */
+.form-control,
+.form-input,
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="number"],
+select,
+textarea {
+    background: rgba(255, 255, 255, 0.95) !important;
+    color: #000000 !important;
+    border: 2px solid rgba(255, 215, 0, 0.5) !important;
+    font-weight: 600 !important;
+}
+
+.form-control:focus,
+.form-input:focus {
+    border-color: #ffd700 !important;
+    box-shadow: 0 0 0 3px rgba(255, 215, 0, 0.3) !important;
+}
+
+/* Fix form labels */
+.form-label,
+label {
+    color: #ffffff !important;
+    font-weight: 600 !important;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.5) !important;
+}
+
+/* Fix status badges */
+.status-badge,
+.reserva-status {
+    font-weight: 700 !important;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.3) !important;
+}
+
+/* Fix empty states */
+.empty-state {
+    border: 2px solid #ffd700 !important;
+    background: rgba(15, 15, 35, 0.95) !important;
+}
+
+.empty-title {
+    color: #ffd700 !important;
+    font-weight: 700 !important;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.5) !important;
+}
+
+/* Fix pagination */
+.page-link {
+    background: rgba(255, 215, 0, 0.1) !important;
+    color: #ffffff !important;
+    border: 1px solid rgba(255, 215, 0, 0.5) !important;
+    font-weight: 600 !important;
+}
+
+.page-link.active {
+    background: #ffd700 !important;
+    color: #000000 !important;
+    font-weight: 700 !important;
+}
+
+/* Fix alert messages */
+.alert {
+    border-width: 2px !important;
+    font-weight: 600 !important;
+}
+
+/* Fix modal content */
+.modal-content {
+    border: 2px solid #ffd700 !important;
+}
+
+.modal-body label,
+.modal-body .form-label {
+    color: #ffd700 !important;
+    font-weight: 600 !important;
+}
+
+/* Fix sidebar text */
+.sidebar-link,
+.nav-link,
+.sidebar-link-cliente {
+    color: #ffffff !important;
+    font-weight: 600 !important;
+}
+
+/* Fix dashboard KPI text */
+.kpi-content h3 {
+    color: #ffffff !important;
+    font-weight: 700 !important;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.5) !important;
+}
+
+.kpi-change {
+    color: #ffffff !important;
+    font-weight: 600 !important;
+}
+
+/* Fix button text contrast */
+.btn-edit {
+    background: #ffa500 !important;
+    color: #000000 !important;
+    font-weight: 700 !important;
+    text-shadow: 1px 1px 2px rgba(255,255,255,0.3) !important;
+}
+
+.btn-delete {
+    background: #ff4757 !important;
+    color: #ffffff !important;
+    font-weight: 700 !important;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.5) !important;
+}
+
+.btn-stock {
+    background: #2196f3 !important;
+    color: #ffffff !important;
+    font-weight: 700 !important;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.5) !important;
+}
+
+/* Fix filter containers */
+.filters-container {
+    background: rgba(15, 15, 35, 0.95) !important;
+    border: 2px solid rgba(255, 215, 0, 0.3) !important;
+    border-radius: 15px !important;
+    padding: 1.5rem !important;
+    margin-bottom: 2rem !important;
+}
+
+/* Fix grid containers */
+.productos-grid,
+.reservas-grid,
+.inventario-table-container {
+    gap: 1.5rem !important;
+}
+
+/* Fix specific module headers */
+.productos-header,
+.reservas-header,
+.inventario-header {
+    border: 2px solid #ffd700 !important;
+    box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3) !important;
+}
+
+/* Fix ingredient sections */
+.producto-ingredientes {
+    background: rgba(255, 215, 0, 0.15) !important;
+    border: 1px solid rgba(255, 215, 0, 0.3) !important;
+    color: #ffffff !important;
+    font-weight: 500 !important;
+}
+
+/* Fix category badges */
+.producto-category {
+    background: #ffd700 !important;
+    color: #000000 !important;
+    font-weight: 700 !important;
+    text-shadow: 1px 1px 2px rgba(255,255,255,0.3) !important;
+}
+
+/* Fix price display */
+.precio {
+    color: #ffd700 !important;
+    font-weight: 700 !important;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.5) !important;
+}
+
+/* Fix stats cards */
+.stat-card {
+    border: 2px solid #ffd700 !important;
+    background: rgba(15, 15, 35, 0.95) !important;
+}
+
+.stat-card h3 {
+    color: #ffffff !important;
+    font-weight: 700 !important;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.5) !important;
+}
+
+.stat-card p {
+    color: #ffffff !important;
+    font-weight: 600 !important;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.5) !important;
+}
+
+/* Fix action buttons container */
+.producto-actions,
+.reserva-actions,
+.item-actions {
+    border-top: 2px solid rgba(255, 215, 0, 0.5) !important;
+}
+
+/* Fix no-image placeholders */
+.no-image {
+    background: rgba(255, 215, 0, 0.15) !important;
+    border: 2px solid rgba(255, 215, 0, 0.3) !important;
+    color: #ffd700 !important;
+    font-weight: 600 !important;
+}
+
+/* Fix user info in headers */
+.user-info {
+    color: #ffffff !important;
+    font-weight: 600 !important;
+}
+
+.user-name {
+    color: #ffffff !important;
+    font-weight: 700 !important;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.5) !important;
+}
+
+/* Fix chart titles */
+.chart-title {
+    color: #ffd700 !important;
+    font-weight: 700 !important;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.5) !important;
+}
+
+/* Fix logout button */
+.logout-btn {
+    border: 2px solid rgba(255, 215, 0, 0.5) !important;
+    color: #ffffff !important;
+    font-weight: 600 !important;
+}
+
+/* Fix dashboard specific elements */
+.chart-header h4 {
+    color: #ffd700 !important;
+    font-weight: 700 !important;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.5) !important;
+}
+
+/* Fix client dashboard KPI cards */
+.kpi-card .kpi-content h3,
+.kpi-card h3 {
+    color: #ffffff !important;
+    font-weight: 700 !important;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.5) !important;
+}
+
+.kpi-card .kpi-content p,
+.kpi-card p {
+    color: #ffffff !important;
+    font-weight: 600 !important;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.5) !important;
+}
+
+/* Fix section titles */
+.section-title,
+.title-primary {
+    color: #ffd700 !important;
+    font-weight: 700 !important;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5) !important;
+}
+
+/* Fix card content text */
+.card h3,
+.card p {
+    color: #ffffff !important;
+    font-weight: 600 !important;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.5) !important;
+}
+
+/* Fix responsive issues */
+@media (max-width: 768px) {
+    .form-control,
+    .form-input {
+        font-size: 16px !important; /* Prevent zoom on iOS */
+    }
+}

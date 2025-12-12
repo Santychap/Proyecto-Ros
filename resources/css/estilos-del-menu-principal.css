@@ -1,0 +1,187 @@
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background: linear-gradient(120deg, #fff 60%, #181828 100%);
+  background-attachment: fixed;
+  color: white;
+  text-align: center;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+
+header {
+  background-color: #ffffff9f; 
+  padding: 20px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.header-link {
+  text-decoration: none;
+  color: rgb(0, 0, 0);
+  font-weight: bold;
+  font-size: 18px;
+}
+
+
+/* main {
+  flex: 1;
+  padding: 40px;
+} */
+
+
+.circulos-principales {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 100px;
+  padding: 100px;
+  flex-wrap: wrap;
+}
+
+.circulo {
+  position: relative;
+  border-radius: 100%;
+  overflow: hidden;
+  text-align: center;
+  font-weight: bold;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.circulo img {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+}
+
+.circulo span {
+  position: relative;
+  z-index: 1;
+  padding: 100px;
+  text-shadow: 1px 1px 3px black;
+  font-family: sans-serif;
+  text-transform: uppercase;
+  text-align: center;
+}
+
+.circulo.small {
+  width: 250px;
+  height: 250px;
+  font-size: 14px;
+}
+
+.circulo.central {
+  width: 500px;
+  height: 500px;
+  font-size: 16px;
+}
+
+
+
+.bloques {
+  display: flex;
+  justify-content: center;
+  gap: 50px;
+  margin-bottom: 60px;
+}
+
+.bloque {
+  width: 500px;
+  height: 300px;
+  background-color: rgba(255, 255, 255, 0.25);
+  border-radius: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-decoration: none;
+  color: white;
+  font-size: 20px;
+  font-weight: bold;
+  transition: transform 0.3s;
+}
+
+.bloque:hover {
+  transform: scale(1.05);
+}
+
+
+.informacion {
+  background-color: #ffffff79;
+  padding: 30px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  color: rgb(0, 0, 0);
+  width: 100%;
+  box-sizing: border-box;
+  position: relative;
+}
+
+.info-item {
+  flex: 1;
+  min-width: 600px;
+  text-align: center;
+}
+
+.info-item img {
+  width: 60px;
+  height: 60px;
+  margin-bottom: 10px;
+}
+
+.info-item p {
+  margin: 10px 0 0;
+  font-size: 16px;
+}
+
+.info-item.contacto .redes {
+  margin-top: 10px;
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+}
+
+.info-item.contacto .redes img {
+  width: 32px;
+  height: 32px;
+}
+
+.bloque-contenedor {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.titulo-bloque {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: white;
+}
+
+.bloque img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 15px;
+}
+

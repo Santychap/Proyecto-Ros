@@ -1,0 +1,19 @@
+/* LOS @IMPORT DEBEN IR PRIMERO */
+@import './estilos-del-menu-principal.css';
+@import './estilos-de-carrito.css';
+@import './estilos-de-login.css';
+@import './estilos-de-reserva.css';
+@import './estilos-de-validacion.css';
+@import './estilos-del-menu.css';
+@import './estilosreservas.css';
+@import './menu-styles.css';
+@import './registro-styles.css';
+@import './registro.css';
+@import './Sesion_Noticias.css';
+
+/* LUEGO @tailwind */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Aquí puedes importar tus estilos personalizados */

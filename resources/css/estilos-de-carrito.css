@@ -1,0 +1,122 @@
+/* Colores dorado, negro y blanco */
+:root {
+    --primary-color: #ffd700; /* Amarillo igual que reservas */
+    --background-color: #000000;
+    --input-background: #1a1a1a;
+    --text-color: #fff;
+    --border-color: #ffd700;
+    --shadow-color: rgba(255, 215, 0, 0.1);
+}
+
+body {
+    background: linear-gradient(120deg, #fff 60%, #181828 100%);
+    background-attachment: fixed;
+    color: var(--text-color);
+    font-family: 'Open Sans', Arial, sans-serif;
+    margin: 0;
+    min-height: 100vh;
+}
+
+.header {
+    background: linear-gradient(135deg, #1a1a1a 0%, #000000 100%);
+    color: var(--primary-color);
+    padding: 1rem 0;
+    text-align: center;
+    border-bottom: 2px solid var(--primary-color);
+    box-shadow: 0 4px 20px rgba(255, 215, 0, 0.2);
+}
+
+.logo h2 {
+    margin: 0;
+    font-family: 'Playfair Display', serif;
+    color: var(--primary-color);
+}
+
+.nav-link {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: bold;
+    margin-left: 1rem;
+}
+
+.container {
+    max-width: 600px;
+    margin: 2rem auto;
+    background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+    border-radius: 20px;
+    box-shadow: 0 10px 30px var(--shadow-color);
+    padding: 2rem 2.5rem;
+    border: 2px solid #333;
+}
+
+h1 {
+    color: var(--primary-color);
+    text-align: center;
+    margin-bottom: 2rem;
+    font-size: 2rem;
+    font-weight: 700;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+}
+
+.carrito-lista {
+    margin-bottom: 2rem;
+}
+
+.carrito-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--border-color);
+    padding: 1rem 0;
+}
+
+.carrito-item:last-child {
+    border-bottom: none;
+}
+
+.carrito-item-titulo {
+    font-weight: bold;
+    color: #1a1a1a;
+    background: var(--primary-color);
+    padding: 0.3rem 0.7rem;
+    border-radius: 0.3rem;
+}
+
+.carrito-item-precio {
+    color: var(--primary-color);
+    font-weight: bold;
+}
+
+.btn {
+    background: linear-gradient(90deg, var(--primary-color) 0%, #fffbe6 100%);
+    color: #000;
+    border: none;
+    border-radius: 0.3rem;
+    padding: 0.5rem 1.2rem;
+    font-size: 1rem;
+    cursor: pointer;
+    margin-top: 1rem;
+    transition: background 0.2s, color 0.2s;
+    font-weight: bold;
+    box-shadow: 0 0 8px var(--primary-color), 0 0 2px #fff;
+}
+
+.btn-secondary {
+    background: #fff;
+    color: var(--primary-color);
+    border: 1px solid var(--primary-color);
+}
+
+.btn:hover {
+    background: var(--primary-color);
+    color: #fff;
+}
+
+.carrito-total {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 1.2rem;
+    color: var(--primary-color);
+    margin-top: 2rem;
+}

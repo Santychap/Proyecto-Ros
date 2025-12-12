@@ -1,0 +1,294 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+}
+
+/* Fondos específicos para cada página */
+.google-bg {
+    background-color: black;
+}
+
+.facebook-bg {
+     background-color: black;
+}
+
+.phone-bg {
+    background-color: black;
+}
+
+.login-bg {
+     background-color: black;
+}
+
+body::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1;
+}
+
+.register-container {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    max-width: 450px;
+    padding: 20px;
+}
+
+.register-box {
+    background: rgba(255, 255, 255, 0.95);
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(10px);
+}
+
+.back-btn {
+    margin-bottom: 20px;
+}
+
+.back-btn button {
+    background: rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    padding: 10px 15px;
+    border-radius: 10px;
+    color: #333;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.3s ease;
+}
+
+.back-btn button:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: translateX(-2px);
+}
+
+.logo {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.google-icon {
+    font-size: 3em;
+    color: #db4437;
+    margin-bottom: 15px;
+}
+
+.facebook-icon {
+    font-size: 3em;
+    color: #4267B2;
+    margin-bottom: 15px;
+}
+
+.phone-icon {
+    font-size: 3em;
+    color: #25D366;
+    margin-bottom: 15px;
+}
+
+.login-icon {
+    font-size: 3em;
+    color: #6c757d;
+    margin-bottom: 15px;
+}
+
+.logo h1 {
+    color: #333;
+    font-size: 1.8em;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+.logo p {
+    color: #666;
+    font-size: 1em;
+}
+
+.register-form {
+    margin-bottom: 20px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    color: #333;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.form-group input,
+.form-group select {
+    width: 100%;
+    padding: 12px 15px;
+    border: 2px solid #e1e1e1;
+    border-radius: 10px;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    background: white;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    outline: none;
+    border-color: #4CAF50;
+    box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
+}
+
+.submit-btn {
+    width: 100%;
+    padding: 15px 20px;
+    border: none;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 20px;
+}
+
+.google-btn {
+    background: #db4437;
+    color: white;
+}
+
+.google-btn:hover {
+    background: #c23321;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(219, 68, 55, 0.4);
+}
+
+.facebook-btn {
+    background: #4267B2;
+    color: white;
+}
+
+.facebook-btn:hover {
+    background: #365899;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(66, 103, 178, 0.4);
+}
+
+.phone-btn {
+    background: #25D366;
+    color: white;
+}
+
+.phone-btn:hover {
+    background: #20BA5A;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(37, 211, 102, 0.4);
+}
+
+.login-btn-submit {
+    background: #6c757d;
+    color: white;
+}
+
+.login-btn-submit:hover {
+    background: #5a6268;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(108, 117, 125, 0.4);
+}
+
+.checkbox-group {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.checkbox-label {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    font-size: 14px;
+    color: #333;
+}
+
+.checkbox-label input[type="checkbox"] {
+    margin-right: 8px;
+    width: auto;
+}
+
+.login-links {
+    text-align: center;
+    margin: 15px 0;
+}
+
+.forgot-password {
+    color: #4CAF50;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.forgot-password:hover {
+    text-decoration: underline;
+}
+
+.submit-btn i {
+    font-size: 18px;
+}
+
+.terms {
+    text-align: center;
+    padding-top: 20px;
+    border-top: 1px solid #eee;
+}
+
+.terms p {
+    color: #666;
+    font-size: 13px;
+    line-height: 1.4;
+    margin-bottom: 5px;
+}
+
+.terms a {
+    color: #4CAF50;
+    text-decoration: none;
+}
+
+.terms a:hover {
+    text-decoration: underline;
+}
+
+@media (max-width: 480px) {
+    .register-container {
+        padding: 10px;
+    }
+    
+    .register-box {
+        padding: 25px 20px;
+    }
+    
+    .logo h1 {
+        font-size: 1.5em;
+    }
+    
+    .form-group input,
+    .form-group select {
+        padding: 10px 12px;
+        font-size: 14px;
+    }
+}
