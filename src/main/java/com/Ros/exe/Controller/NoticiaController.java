@@ -17,8 +17,24 @@ public class NoticiaController {
     private NoticiaService noticiaService;
 
     @GetMapping("/noticias")
-    public String listar(Model model) {
-        model.addAttribute("noticias", noticiaService.listarNoticias());
+    public String listar(@RequestParam(required = false) Long id,
+                         @RequestParam(required = false) String titulo,
+                         Model model) {
+        List<NoticiaDto> noticias = noticiaService.listarNoticias();
+
+        if (id != null) {
+            noticias = noticias.stream()
+                    .filter(n -> n.getId().equals(id))
+                    .collect(java.util.stream.Collectors.toList());
+        }
+
+        if (titulo != null && !titulo.isEmpty()) {
+            noticias = noticias.stream()
+                    .filter(n -> n.getTitulo().toLowerCase().contains(titulo.toLowerCase()))
+                    .collect(java.util.stream.Collectors.toList());
+        }
+
+        model.addAttribute("noticias", noticias);
         return "noticia/list";
     }
 

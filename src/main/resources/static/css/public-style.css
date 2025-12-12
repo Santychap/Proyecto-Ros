@@ -280,7 +280,7 @@ body {
 
 .promo-image {
     width: 100%;
-    height: 100px;
+    height: 180px;
     background: var(--gradient-bg);
     border-radius: 15px;
     display: flex;

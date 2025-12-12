@@ -24,76 +24,69 @@
     </nav>
 
     <div class="content d-flex justify-content-center align-items-center" style="padding-top: 100px;">
-        <!-- Registro Section -->
-        <section class="login-section">
-            <div class="container">
-                <div class="row justify-content-center align-items-center">
-                    <div class="col-md-6 col-lg-5">
-                        <div class="login-card">
-                        <div class="text-center mb-4">
-                            <div class="login-icon">
-                                <i class="fas fa-user-plus"></i>
-                            </div>
-                            <h2 class="login-title">Crear Cuenta</h2>
-                            <p class="login-subtitle">Únete a OLLA Y Sazón</p>
+        <div class="login-wrapper" style="width: 100%; max-width: 550px;">
+            <div class="login-card">
+                <div class="text-center mb-4">
+                    <div class="login-icon">
+                        <i class="fas fa-user-plus"></i>
+                    </div>
+                    <h2 class="login-title">Crear Cuenta</h2>
+                    <p class="login-subtitle">Únete a OLLA Y Sazón</p>
+                </div>
+
+                <!-- Mensajes -->
+                <div th:if="${error}" class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <span th:text="${error}"></span>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+
+                <form th:action="@{/registro}" th:object="${usuario}" method="post" class="login-form">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Nombre *</label>
+                            <input type="text" class="form-control" th:field="*{nombre}" 
+                                   placeholder="Tu nombre" required>
                         </div>
-
-                        <!-- Mensajes -->
-                        <div th:if="${error}" class="alert alert-danger alert-dismissible fade show" role="alert">
-                            <span th:text="${error}"></span>
-                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                        </div>
-
-                        <form th:action="@{/registro}" th:object="${usuario}" method="post" class="login-form">
-                            <div class="row">
-                                <div class="col-md-6 mb-3">
-                                    <label class="form-label">Nombre *</label>
-                                    <input type="text" class="form-control" th:field="*{nombre}" 
-                                           placeholder="Tu nombre" required>
-                                </div>
-                                <div class="col-md-6 mb-3">
-                                    <label class="form-label">Apellido *</label>
-                                    <input type="text" class="form-control" th:field="*{apellido}" 
-                                           placeholder="Tu apellido" required>
-                                </div>
-                            </div>
-                            
-                            <div class="mb-3">
-                                <label class="form-label">Correo Electrónico *</label>
-                                <input type="email" class="form-control" th:field="*{email}" 
-                                       placeholder="tu@email.com" required>
-                            </div>
-                            
-                            <div class="mb-3">
-                                <label class="form-label">Contraseña *</label>
-                                <input type="password" class="form-control" th:field="*{password}" 
-                                       placeholder="Mínimo 6 caracteres" minlength="6" required>
-                            </div>
-                            
-                            <div class="mb-4">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" id="terminos" required>
-                                    <label class="form-check-label" for="terminos">
-                                        Acepto los <a href="#" class="text-primary">términos y condiciones</a>
-                                    </label>
-                                </div>
-                            </div>
-                            
-                            <button type="submit" class="btn btn-primary w-100 mb-3">
-                                <i class="fas fa-user-plus me-2"></i>Crear Cuenta
-                            </button>
-                        </form>
-
-                        <div class="text-center">
-                            <p class="mb-0">¿Ya tienes cuenta? 
-                                <a href="/iniciar-sesion" class="text-primary fw-bold">Iniciar Sesión</a>
-                            </p>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Apellido *</label>
+                            <input type="text" class="form-control" th:field="*{apellido}" 
+                                   placeholder="Tu apellido" required>
                         </div>
                     </div>
+                    
+                    <div class="mb-3">
+                        <label class="form-label">Correo Electrónico *</label>
+                        <input type="email" class="form-control" th:field="*{email}" 
+                               placeholder="tu@email.com" required>
                     </div>
+                    
+                    <div class="mb-3">
+                        <label class="form-label">Contraseña *</label>
+                        <input type="password" class="form-control" th:field="*{password}" 
+                               placeholder="Mínimo 6 caracteres" minlength="6" required>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="terminos" required>
+                            <label class="form-check-label" for="terminos">
+                                Acepto los <a href="#" class="text-primary">términos y condiciones</a>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary w-100 mb-3">
+                        <i class="fas fa-user-plus me-2"></i>Crear Cuenta
+                    </button>
+                </form>
+
+                <div class="text-center">
+                    <p class="mb-0">¿Ya tienes cuenta? 
+                        <a href="/iniciar-sesion" class="text-primary fw-bold">Iniciar Sesión</a>
+                    </p>
                 </div>
             </div>
-        </section>
+        </div>
     </div>
 
     <!-- Footer -->
